@@ -1,0 +1,306 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "tailwindcss";
+
+:root {
+  --forebackground: #f1f1f1;
+  --default: #0000000f;
+  --info: #d5ebff;
+  --success: #0a9c00;
+  --success-light: #affebf;
+  --warning: #ffd6a4;
+  --disabled: #00000014;
+
+  --surface: #fdfdfd;
+  --surface-hover: #fafafa;
+  --surface-active: #f7f7f7;
+  --surface-critical: #fed1d7;
+  --critical: #fee8eb;
+
+  --filled-critical: #c70a24;
+  --hover-critical: #a30a24;
+  --active-critical: #8e0b21;
+  --disabled-critical: #0000002b;
+  --selected-critical: #8e0b21;
+
+  --filled-brand: #303030;
+  --hover-brand: #1a1a1a;
+  --active-brand: #1a1a1a;
+  --disabled-brand: #0000002b;
+  --selected-brand: #303030;
+
+  --filled-transparent: #ffffff00;
+  --transparent-hover: #0000000d;
+  --transparent-active: #00000014;
+  --transparent-disabled: #ffffff00;
+  --transparent-selected: #00000014;
+
+  --filled-white: #ffffff;
+  --white-hover: #fafafa;
+  --white-active: #f7f7f7;
+  --white-disabled: #0000000d;
+  --white-selected: #cccccc;
+
+  /* <---! Text Colors !---> */
+
+  --text-primary: #303030;
+  --text-secondary: #616161;
+  --text-filled-bg: #e3e3e3;
+  --text-info: #003a5a;
+  --text-success: #014b40;
+  --text-warning: #5e4200;
+  --text-critical: #8e0b21;
+  --text-disabled: #b5b5b5;
+
+  --text-brand-bg-disabled: #ffffff;
+  --text-brand-bg-hover: #e3e3e3;
+  --text-brand-bg-active: #cccccc;
+  --text-brand-bg-selected: #cccccc;
+
+  /* <---! Border Colors !---> */
+  --border-critical: #8e0b21;
+  --border-input: #8a8a8a;
+  --border-input-hover: #616161;
+  --border-input-active: #1a1a1a;
+
+  /* <---! Theme Colors !---> */
+  --brand-text: #303030;
+  --focus: #005bd3;
+
+  /* <---! Spacing !---> */
+  --spacing-primary: 12px;
+  --spacing-secondary: 16px;
+  --spacing-100: 4px;
+  --spacing-125: 5px;
+  --spacing-150: 6px;
+  --spacing-175: 7px;
+  --spacing-200: 8px;
+  --spacing-225: 9px;
+  --spacing-250: 10px;
+  --spacing-275: 11px;
+  --spacing-300: 12px;
+  --spacing-325: 13px;
+  --spacing-350: 14px;
+  --spacing-375: 15px;
+  --spacing-400: 16px;
+
+  /* <---! Fonts !---> */
+  --text-size-300: 12px;
+  --text-size-325: 13px;
+  --text-size-350: 14px;
+  --text-size-375: 15px;
+  --text-size-400: 16px;
+  --text-size-425: 17px;
+  --text-size-450: 18px;
+  --text-size-475: 19px;
+  --text-size-500: 20px;
+  --text-size-525: 21px;
+  --text-size-550: 22px;
+  --text-size-575: 23px;
+  --text-size-600: 24px;
+  --text-size-625: 25px;
+  --text-size-650: 26px;
+  --text-size-675: 27px;
+  --text-size-700: 28px;
+  --text-size-725: 29px;
+  --text-size-750: 30px;
+
+  --font-w-normal: 450;
+  --font-w-medium: 550;
+  --font-w-semibold: 650;
+  --font-w-bold: 750;
+  --font-w-extrabold: 850;
+
+  /* <---! Input Sizes !---> */
+
+  --input-size-300: 32px;
+  --input-size-325: 36px;
+  --input-size-350: 40px;
+  --input-size-375: 44px;
+  --input-size-400: 48px;
+
+  /* <---! Button Radius !---> */
+}
+
+@theme inline {
+  --color-forebackground: var(--forebackground);
+  --color-default: var(--default);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-disabled: var(--disabled);
+
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-active: var(--surface-active);
+  --color-surface-critical: var(--surface-critical);
+  --color-critical: var(--critical);
+
+  --color-filled-critical: var(--filled-critical);
+  --color-hover-critical: var(--hover-critical);
+  --color-active-critical: var(--active-critical);
+  --color-disabled-critical: var(--disabled-critical);
+  --color-selected-critical: var(--selected-critical);
+
+  --color-filled-brand: var(--filled-brand);
+  --color-hover-brand: var(--hover-brand);
+  --color-active-brand: var(--active-brand);
+  --color-disabled-brand: var(--disabled-brand);
+  --color-selected-brand: var(--selected-brand);
+
+  --color-filled-transparent: var(--filled-transparent);
+  --color-transparent-hover: var(--transparent-hover);
+  --color-transparent-active: var(--transparent-active);
+  --color-transparent-disabled: var(--transparent-disabled);
+  --color-transparent-selected: var(--transparent-selected);
+
+  --color-filled-white: var(--filled-white);
+  --color-white-hover: var(--white-hover);
+  --color-white-active: var(--white-active);
+  --color-white-disabled: var(--white-disabled);
+  --color-white-selected: var(--white-selected);
+
+  /* Text Colors */
+  --color-primary-text: var(--text-primary);
+  --color-secondary-text: var(--text-secondary);
+  --color-filled-bg-text: var(--text-filled-bg);
+  --color-info-text: var(--text-info);
+  --color-success-text: var(--text-success);
+  --color-warning-text: var(--text-warning);
+  --color-critical-text: var(--text-critical);
+  --color-disabled-text: var(--text-disabled);
+
+  --color-brand-bg-disabled-text: var(--text-brand-bg-disabled);
+  --color-brand-bg-hover-text: var(--text-brand-bg-hover);
+  --color-text-brand-bg-active: var(--text-brand-bg-active);
+  --color-text-brand-bg-selected: var(--text-brand-bg-selected);
+
+  /* Border Colors */
+
+  --color-critical-border: var(--border-critical);
+  --color-input-border: var(--border-input);
+  --color-input-hover-border: var(--border-input-hover);
+  --color-input-active-border: var(--border-input-active);
+
+  /* Theme Colors */
+  --color-brand-text: var(--brand-text);
+  --color-focus: var(--focus);
+
+  /* Spacing */
+  --gap-primary-gap: var(--spacing-primary);
+  --gap-secondary-gap: var(--spacing-secondary);
+  --gap-100: var(--spacing-100);
+  --gap-125: var(--spacing-125);
+  --gap-150: var(--spacing-150);
+  --gap-175: var(--spacing-175);
+  --gap-200: var(--spacing-200);
+  --gap-225: var(--spacing-225);
+  --gap-250: var(--spacing-250);
+  --gap-275: var(--spacing-275);
+  --gap-300: var(--spacing-300);
+  --gap-325: var(--spacing-325);
+  --gap-350: var(--spacing-350);
+  --gap-375: var(--spacing-375);
+  --gap-400: var(--spacing-400);
+
+  --spacing-primary-spacing: var(--spacing-primary);
+  --spacing-secondary-spacing: var(--spacing-secondary);
+  --spacing-100: var(--spacing-100);
+  --spacing-125: var(--spacing-125);
+  --spacing-150: var(--spacing-150);
+  --spacing-175: var(--spacing-175);
+  --spacing-200: var(--spacing-200);
+  --spacing-225: var(--spacing-225);
+  --spacing-250: var(--spacing-250);
+  --spacing-275: var(--spacing-275);
+  --spacing-300: var(--spacing-300);
+  --spacing-325: var(--spacing-325);
+  --spacing-350: var(--spacing-350);
+  --spacing-375: var(--spacing-375);
+  --spacing-400: var(--spacing-400);
+
+  /* Font Sizes */
+  --text-size-300: var(--text-size-300);
+  --text-size-325: var(--text-size-325);
+  --text-size-350: var(--text-size-350);
+  --text-size-375: var(--text-size-375);
+  --text-size-400: var(--text-size-400);
+  --text-size-425: var(--text-size-425);
+  --text-size-450: var(--text-size-450);
+  --text-size-475: var(--text-size-475);
+  --text-size-500: var(--text-size-500);
+  --text-size-525: var(--text-size-525);
+  --text-size-550: var(--text-size-550);
+  --text-size-575: var(--text-size-575);
+  --text-size-600: var(--text-size-600);
+  --text-size-625: var(--text-size-625);
+  --text-size-650: var(--text-size-650);
+  --text-size-675: var(--text-size-675);
+  --text-size-700: var(--text-size-700);
+  --text-size-725: var(--text-size-725);
+  --text-size-750: var(--text-size-750);
+
+  /* Font Weights */
+  --font-w-normal: var(--font-w-normal);
+  --font-w-medium: var(--font-w-medium);
+  --font-w-semibold: var(--font-w-semibold);
+  --font-w-bold: var(--font-w-bold);
+  --font-w-extrabold: var(--font-w-extrabold);
+
+  /*  */
+}
+
+[data-theme="dark"] {
+  --forebackground: #0a0a0a;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: var(--font-w-normal);
+  background-color: var(--forebackground);
+  color: var(--text-secondary);
+  font-size: var(--text-size-325);
+}
+
+@layer base {
+  label,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-primary-text;
+  }
+}
+
+/* Input settings utility classes */
+
+@utility input-size-300 {
+  height: var(--input-size-300);
+}
+
+@utility input-padding {
+  padding: 6px 12px;
+}
+
+@layer components {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Button component */
+
+  .btn.btn-primary {
+    box-shadow: 0px 0.5px 0px 1.5px #ffffff40, 0px 0px 0px 1px #303030, 0px -1px 0px 1px #000000cc inset;
+  }
+  .btn.btn-primary:active {
+    box-shadow: 0px 3px 0px 0px #000000 inset;
+  }
+  .btn:disabled,
+  .btn:disabled:active {
+    box-shadow: none;
+  }
+}

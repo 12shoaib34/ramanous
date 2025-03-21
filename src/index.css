@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "tailwindcss";
+
+:root {
+  --background: #f1f1f1;
+  --nav-bg: #ebebeb;
+  --background-secondary: #ffffff;
+
+  --color-primary: #303030;
+  --color-text: #616161;
+  --color-text-label: var(--color-primary);
+  --color-error-bg: #fee8eb;
+  --color-error: #8e0b21;
+  --color-error-text: var(--color-primary);
+  --color-focus: #005bd3;
+  --active-shadow: 0 0 0 1px #ffffff, 0 0 0 3px var(--color-focus);
+
+  /* components variables */
+
+  --color-input-border: #8a8a8a;
+  --hover-input-border-color: #616161;
+  --active-input-border-color: #1a1a1a;
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-nav-bg: var(--nav-bg);
+
+  --shadow-active: var(--active-shadow);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: var(--font-w-normal);
+  background-color: var(--background);
+  color: var(--text-secondary);
+  font-size: var(--text-size-325);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-primary;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .p-screen {
+    @apply p-2;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Button component */
+
+  .btn.btn-primary {
+    box-shadow: 0px 0.5px 0px 1.5px #ffffff40, 0px 0px 0px 1px #303030, 0px -1px 0px 1px #000000cc inset;
+  }
+  .btn.btn-primary:active {
+    box-shadow: 0px 3px 0px 0px #000000 inset;
+  }
+  .btn:disabled,
+  .btn:disabled:active {
+    box-shadow: none;
+  }
+}
+
+/* ANTD COMPONENTS */
+
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  box-shadow: var(--active-shadow);
+}
+.ant-checkbox-input:focus-visible + .ant-checkbox-inner {
+  outline: none !important;
+}
+
+.ant-btn {
+  outline: none !important;
+}
+
+.ant-btn:focus {
+  box-shadow: var(--active-shadow);
+}
+
+/* INPUT */
+
+.ant-input-status-error.ant-input.ant-input-outlined,
+.ant-input-status-error.ant-input.ant-input-outlined:hover,
+.ant-input-affix-wrapper.ant-input-outlined.ant-input-status-error.ant-input-password {
+  background-color: var(--color-error-bg) !important;
+  color: var(--color-primary);
+}
