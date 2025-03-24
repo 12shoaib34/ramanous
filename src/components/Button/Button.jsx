@@ -13,6 +13,8 @@ const Button = (props) => {
     textColor = "",
     loading = false,
     disabled = false,
+    htmlType = "button",
+    className = "",
     ...rest
   } = props;
 
@@ -53,6 +55,8 @@ const Button = (props) => {
           return "text-button-primary";
         case "light-secondary":
           return "text-button-secondary";
+        case "light":
+          return "text-primary";
         default:
           return "text-white";
       }
@@ -110,7 +114,7 @@ const Button = (props) => {
   };
 
   return (
-    <button disabled={disabled || loading} {...rest} className={`${renderTheme()}`}>
+    <button type={htmlType} disabled={disabled || loading} {...rest} className={`${className} ${renderTheme()}`.trim()}>
       <span className={`flex items-center justify-center ${iconGap}`}>
         {icon && icon} {children}
       </span>

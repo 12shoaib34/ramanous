@@ -4,5 +4,20 @@ import AntDatePicker from "./AntDatePicker/AntDatePicker";
 import AntTimePicker from "./AntTimePicker/AntTimePicker";
 import ProductRow from "./ProductRow/ProductRow";
 import Button from "./Button/Button";
+import FormSectionWithTitle from "./FormSectionWithTitle/FormSectionWithTitle";
+import FormSection from "./FormSection/FormSection";
+import FormContainer from "./FormContainer/FormContainer";
+import CustomLabel from "./CustomLabel/CustomLabel";
 
-export { Aside, Header, AntDatePicker, AntTimePicker, ProductRow, Button };
+export {
+  Aside,
+  Header,
+  AntDatePicker,
+  AntTimePicker,
+  ProductRow,
+  Button,
+  FormSectionWithTitle,
+  FormSection,
+  FormContainer,
+  CustomLabel,
+};

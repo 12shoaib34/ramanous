@@ -197,7 +197,9 @@ body {
 
 .ant-input-status-error.ant-input.ant-input-outlined,
 .ant-input-status-error.ant-input.ant-input-outlined:hover,
-.ant-input-affix-wrapper.ant-input-outlined.ant-input-status-error.ant-input-password {
+.ant-input-affix-wrapper.ant-input-outlined.ant-input-status-error.ant-input-password,
+.ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled),
+.ant-select-outlined.ant-select-status-error:not(.ant-select-customize-input) .ant-select-selector {
   background-color: var(--color-error-bg) !important;
   color: var(--color-primary);
 }
@@ -212,3 +214,8 @@ body {
 }
 
 /* FORM */
+
+label,
+.label-role {
+  font-weight: 550;
+}
