@@ -69,6 +69,8 @@
   /* <---! Spacing !---> */
   --spacing-primary: 12px;
   --spacing-secondary: 16px;
+  --spacing-50: 2px;
+  --spacing-75: 3px;
   --spacing-100: 4px;
   --spacing-125: 5px;
   --spacing-150: 6px;
@@ -189,6 +191,7 @@
   /* Spacing */
   --gap-primary-gap: var(--spacing-primary);
   --gap-secondary-gap: var(--spacing-secondary);
+  --
   --gap-100: var(--spacing-100);
   --gap-125: var(--spacing-125);
   --gap-150: var(--spacing-150);

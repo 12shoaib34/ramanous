@@ -1,7 +1,7 @@
-import { Button, Checkbox, Form, Input, InputNumber, Select, Space, Upload } from "antd";
+import { Checkbox, Form, Input, InputNumber, Select, Space, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import React from "react";
-import { AntDatePicker, AntTimePicker, ProductRow } from "../../components";
+import { AntDatePicker, AntTimePicker, ProductRow, Button } from "../../components";
 import DeleteIcon from "../../icons/DeleteIcon";
 import PlusIcon from "../../icons/PlusIcon";
 import SearchIcon from "../../icons/SearchIcon";
@@ -178,7 +178,7 @@ const Products = (props) => {
                   <Container>
                     <div className="flex items-center justify-between mb-form-item-spacing">
                       <h3 className="font-medium">Australia</h3>
-                      <Button size="small" type="link" shape="circle" icon={<DeleteIcon />} />
+                      <Button shape="circle" size="fit" theme="light" icon={<DeleteIcon />} />
                     </div>
                   </Container>
                   <Container divider>
@@ -253,11 +253,11 @@ const Products = (props) => {
               <ProductRow data={{ url: "/public/images/RamanousShopifyProducts_1.png" }} />
               <ProductRow data={{ url: "/public/images/RamanousShopifyProducts_1.png" }} />
               <ProductRow data={{ url: "/public/images/RamanousShopifyProducts_1.png" }} />
+
               <div className="flex items-center mt-form-item-spacing">
-                <span className="flex gap-2 items-center cursor-pointer">
-                  <PlusIcon />
-                  <span className="text-primary font-medium">Add another</span>
-                </span>
+                <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
+                  Add another
+                </Button>
               </div>
             </Container>
           </SectionWithTitle>
@@ -269,10 +269,9 @@ const Products = (props) => {
               <ProductRow imageClassName="rounded-md" data={{ url: "/public/images/hoddie.png" }} />
               <ProductRow imageClassName="rounded-md" data={{ url: "/public/images/hoddie.png" }} />
               <div className="flex items-center mt-form-item-spacing">
-                <span className="flex gap-2 items-center cursor-pointer">
-                  <PlusIcon />
-                  <span className="text-primary font-medium">Find another</span>
-                </span>
+                <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
+                  Find another
+                </Button>
               </div>
             </Container>
           </SectionWithTitle>
@@ -286,9 +285,11 @@ export default Products;
 const FormHeader = () => {
   return (
     <div className="flex justify-end items-center pt-2 pb-4 gap-2">
-      <Button type="default">Publish</Button>
-      <Button type="primary">Save draft</Button>
-      <Button type="primary" danger>
+      <Button disabled theme="primary">
+        Publish
+      </Button>
+      <Button theme="tertiary-primary">Save draft</Button>
+      <Button theme="secondary" danger>
         Cancel
       </Button>
     </div>
@@ -318,4 +319,3 @@ const SectionWithTitle = ({ children, title = "", subtitle = "" }) => {
     </div>
   );
 };
-
