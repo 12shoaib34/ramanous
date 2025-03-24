@@ -29,7 +29,7 @@ const Root = () => {
 
   return (
     <div className="flex h-[100svh] overflow-hidden">
-      <div className="w-64 max-w-64 flex flex-col h-full overflow-hidden">
+      <div className="w-60 max-w-60 flex flex-col h-full overflow-hidden">
         <Aside />
       </div>
       <div className=" flex flex-col h-full overflow-auto flex-1">

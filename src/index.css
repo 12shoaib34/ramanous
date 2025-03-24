@@ -3,8 +3,8 @@
 
 :root {
   --background: #f1f1f1;
-  --nav-bg: #ebebeb;
   --background-secondary: #ffffff;
+  --nav-bg: #ebebeb;
 
   --color-primary: #303030;
   --color-text: #616161;
@@ -15,18 +15,41 @@
   --color-focus: #005bd3;
   --active-shadow: 0 0 0 1px #ffffff, 0 0 0 3px var(--color-focus);
 
+  /* colors */
+
+  --success-hint: #0a9c00;
+  --danger-hint: #ff0000;
+  --whisper-gray: #ebebeb;
+
   /* components variables */
 
   --color-input-border: #8a8a8a;
   --hover-input-border-color: #616161;
   --active-input-border-color: #1a1a1a;
+
+  /* extra */
+
+  --form-item-spacing: 16px;
 }
 
 @theme inline {
+  --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+
   --color-primary: var(--color-primary);
   --color-nav-bg: var(--nav-bg);
 
+  /* Colors */
+
+  --color-success-hint: var(--success-hint);
+  --color-danger-hint: var(--danger-hint);
+  --color-whisper-gray: var(--whisper-gray);
+
   --shadow-active: var(--active-shadow);
+
+  /* extra */
+
+  --spacing-form-item-spacing: var(--form-item-spacing);
 }
 
 body {
@@ -60,21 +83,16 @@ body {
   }
 
   .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+    @apply hidden;
   }
 
-  /* Button component */
+  .form-container {
+    @apply bg-background-secondary rounded-xl pt-form-item-spacing;
+  }
+}
 
-  .btn.btn-primary {
-    box-shadow: 0px 0.5px 0px 1.5px #ffffff40, 0px 0px 0px 1px #303030, 0px -1px 0px 1px #000000cc inset;
-  }
-  .btn.btn-primary:active {
-    box-shadow: 0px 3px 0px 0px #000000 inset;
-  }
-  .btn:disabled,
-  .btn:disabled:active {
-    box-shadow: none;
-  }
+@utility input-max-w-base {
+  max-width: 387px;
 }
 
 /* ANTD COMPONENTS */
@@ -86,10 +104,14 @@ body {
   outline: none !important;
 }
 
+/* BUTTON */
+
 .ant-btn {
   outline: none !important;
 }
-
+.ant-btn span {
+  line-height: 1;
+}
 .ant-btn:focus {
   box-shadow: var(--active-shadow);
 }
@@ -102,3 +124,14 @@ body {
   background-color: var(--color-error-bg) !important;
   color: var(--color-primary);
 }
+
+/* SELECT */
+
+.ant-select-focused.ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(
+    .ant-pagination-size-changer
+  )
+  .ant-select-selector {
+  box-shadow: var(--active-shadow);
+}
+
+/* FORM */

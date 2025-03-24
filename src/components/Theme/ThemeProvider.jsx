@@ -33,6 +33,8 @@ export const ThemeProvider = ({ children }) => {
       inputBorder: getCSSVariable("--input-border"),
       inputBorderHover: getCSSVariable("--input-border-hover"),
       inputBorderActive: getCSSVariable("--input-border-active"),
+
+      formItemMargin: getCSSVariable("--form-item-spacing"),
     });
   }, []);
 
@@ -45,7 +47,6 @@ export const ThemeProvider = ({ children }) => {
           token: {
             colorPrimary: theme.colorPrimary,
             colorText: theme.colorText,
-
             colorFocus: theme.colorFocus,
             colorError: theme.colorError,
             colorErrorBg: theme.colorErrorBg,
@@ -53,7 +54,9 @@ export const ThemeProvider = ({ children }) => {
           components: {
             Form: {
               labelColor: theme.colorTextLabel,
+              itemMarginBottom: theme.formItemMargin,
             },
+
             Input: {
               colorBorder: theme.inputBorder,
               colorBorderHover: theme.inputBorderHover,
@@ -62,8 +65,31 @@ export const ThemeProvider = ({ children }) => {
               errorActiveShadow: theme.activeShadow,
               colorErrorBg: "red",
             },
+            InputNumber: {
+              colorBorder: theme.inputBorder,
+              colorBorderHover: theme.inputBorderHover,
+              colorBorderActive: theme.inputBorderActive,
+              activeShadow: theme.activeShadow,
+              errorActiveShadow: theme.activeShadow,
+              colorErrorBg: "red",
+            },
+            DatePicker: {
+              colorBorder: theme.inputBorder,
+              colorBorderHover: theme.inputBorderHover,
+              colorBorderActive: theme.inputBorderActive,
+              activeShadow: theme.activeShadow,
+              errorActiveShadow: theme.activeShadow,
+            },
+            Select: {
+              colorBorder: theme.inputBorder,
+              colorBorderHover: theme.inputBorderHover,
+              colorBorderActive: theme.inputBorderActive,
+              activeOutlineColor: theme.colorFocus,
+            },
+
             Button: {
               borderRadius: 8,
+              defaultBorderColor: "transparent",
             },
             Menu: {
               itemBg: theme.navBg,
