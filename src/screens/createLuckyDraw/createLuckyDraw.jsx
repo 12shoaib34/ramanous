@@ -9,8 +9,9 @@ import DrawWinners from "./components/DrawWinners";
 import NonQualifyingOrdersMessage from "./components/NonQualifyingOrdersMessage";
 import PhysicalStoreEntries from "./components/PhysicalStoreEntries";
 import SeoDetails from "./components/SeoDetails";
+import CreateNewProduct from "./components/CreateNewProduct";
 
-const Products = (props) => {
+const CreateLuckyDraw = (props) => {
   const [form] = Form.useForm();
 
   const onUploadMetaImage = (file) => {
@@ -31,45 +32,46 @@ const Products = (props) => {
             <DigitalDownloadEntries form={form} />
             <PhysicalStoreEntries form={form} />
             <NonQualifyingOrdersMessage form={form} />
+            <FormSectionWithTitle title="Digital download products (5)">
+              <FormContainer>
+                <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
+                <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
+                <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
+                <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
+
+                <div className="flex items-center mt-form-item-spacing">
+                  <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
+                    Add another
+                  </Button>
+                </div>
+              </FormContainer>
+            </FormSectionWithTitle>
+
+            <FormSectionWithTitle title="Physical store products (5)">
+              <FormContainer>
+                <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
+                <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
+                <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
+                <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
+                <div className="flex items-center mt-form-item-spacing">
+                  <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
+                    Find another
+                  </Button>
+                </div>
+              </FormContainer>
+            </FormSectionWithTitle>
           </div>
         </div>
 
         <div className="flex flex-col gap-form-item-spacing">
-          <FormSectionWithTitle title="Digital download products (5)">
-            <FormContainer>
-              <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-              <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-              <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-              <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-
-              <div className="flex items-center mt-form-item-spacing">
-                <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
-                  Add another
-                </Button>
-              </div>
-            </FormContainer>
-          </FormSectionWithTitle>
-
-          <FormSectionWithTitle title="Physical store products (5)">
-            <FormContainer>
-              <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-              <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-              <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-              <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-              <div className="flex items-center mt-form-item-spacing">
-                <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
-                  Find another
-                </Button>
-              </div>
-            </FormContainer>
-          </FormSectionWithTitle>
+          <CreateNewProduct form={form} />
         </div>
       </div>
     </Form>
   );
 };
 
-export default Products;
+export default CreateLuckyDraw;
 const FormHeader = () => {
   return (
     <div className="flex justify-end items-center pt-2 pb-4 gap-2">

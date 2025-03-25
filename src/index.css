@@ -6,6 +6,8 @@
   --background-secondary: #ffffff;
   --nav-bg: #ebebeb;
 
+  --color-text-secondary: #616161;
+
   --color-primary: #303030;
   --color-text: #616161;
   --color-text-label: var(--color-primary);
@@ -20,6 +22,7 @@
   --success-hint: #0a9c00;
   --danger-hint: #ff0000;
   --whisper-gray: #ebebeb;
+  --royal-blue: #383cef;
 
   /* Button */
 
@@ -79,11 +82,14 @@
   --color-primary: var(--color-primary);
   --color-nav-bg: var(--nav-bg);
 
+  --color-text-secondary: var(--color-text-secondary);
+
   /* Colors */
 
   --color-success-hint: var(--success-hint);
   --color-danger-hint: var(--danger-hint);
   --color-whisper-gray: var(--whisper-gray);
+  --color-royal-blue: var(--royal-blue);
 
   --shadow-active: var(--active-shadow);
 
@@ -135,7 +141,7 @@ body {
   font-family: "Inter", sans-serif;
   font-weight: var(--font-w-normal);
   background-color: var(--background);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   font-size: var(--text-size-325);
 }
 
@@ -166,6 +172,16 @@ body {
   .form-container {
     @apply bg-background-secondary rounded-xl pt-form-item-spacing;
   }
+}
+
+/* UTILITIES */
+
+@utility shadow-soft-black {
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+@utility shadow-soft-border {
+  box-shadow: 0px 1px 0px 0px #e3e3e3 inset, 1px 0px 0px 0px #e3e3e3 inset, -1px 0px 0px 0px #e3e3e3 inset,
+    0px -1px 0px 0px #d4d4d4 inset, 0px 1px 0px 0px #00000012;
 }
 
 @utility input-max-w-base {
@@ -217,5 +233,17 @@ body {
 
 label,
 .label-role {
+  font-weight: 550;
+}
+
+/* Dragger */
+
+.ant-upload-wrapper .ant-upload-drag {
+  border: 2px dashed var(--royal-blue);
+  background-color: #eae9fe;
+  border-radius: 0;
+}
+.ant-upload-wrapper .ant-upload-drag .dragger-action {
+  color: var(--royal-blue);
   font-weight: 550;
 }

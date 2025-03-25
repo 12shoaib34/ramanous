@@ -1,8 +1,10 @@
 import React from "react";
 
-const FormContainer = ({ children, divider = false }) => {
+const FormContainer = ({ children, divider = false, className = "" }) => {
   return (
-    <div className={`px-form-item-spacing ${divider ? "border-b border-whisper-gray" : ""}`.trim()}>{children}</div>
+    <div className={`px-form-item-spacing ${className} ${divider ? "border-b border-whisper-gray" : ""}`.trim()}>
+      {children}
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 
-import { Dashboard, Login, Products } from "./screens";
+import { Dashboard, Login, CreateLuckyDraw, ListLuckyDraw } from "./screens";
 
 export const router = createBrowserRouter([
   {
@@ -13,8 +13,12 @@ export const router = createBrowserRouter([
         Component: Dashboard,
       },
       {
-        path: "products",
-        Component: Products,
+        path: "create-lucky-draw",
+        Component: CreateLuckyDraw,
+      },
+      {
+        path: "list-lucky-draw",
+        Component: ListLuckyDraw,
       },
     ],
   },

@@ -1,23 +1,21 @@
 import React from "react";
 
-const Button = (props) => {
-  let {
-    children,
-    theme = "primary",
-    icon = null,
-    size = "",
-    padding = "",
-    rounded = "",
-    shape = "",
-    iconGap = "gap-2",
-    textColor = "",
-    loading = false,
-    disabled = false,
-    htmlType = "button",
-    className = "",
-    ...rest
-  } = props;
-
+const Button = ({
+  children,
+  theme = "primary",
+  icon = null,
+  size = "",
+  padding = "",
+  rounded = "",
+  shape = "",
+  iconGap = "gap-2",
+  textColor = "",
+  loading = false,
+  disabled = false,
+  htmlType = "button",
+  className = "",
+  ...rest
+}) => {
   const renderTheme = () => {
     const prefix =
       "m-0.5 disabled:cursor-not-allowed disabled:text-[#B5B5B5] disabled:border-none focus:shadow-active duration-200 font-semibold cursor-pointer";

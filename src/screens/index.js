@@ -1,5 +1,6 @@
 import Dashboard from "./dashboard/dashboard";
 import Login from "./login/login";
-import Products from "./products/products";
+import CreateLuckyDraw from "./CreateLuckyDraw/CreateLuckyDraw";
+import ListLuckyDraw from "./ListLuckyDraw/ListLuckyDraw";
 
-export { Dashboard, Login, Products };
+export { Dashboard, Login, CreateLuckyDraw, ListLuckyDraw };

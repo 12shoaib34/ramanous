@@ -1,16 +1,15 @@
 import { Space } from "antd";
 import React from "react";
 
-const CustomLabel = (props) => {
-  const {
-    label,
-    info,
-    direction = "vertical",
-    spaceSize = 0,
-    infoColor = "",
-    infoFontWeight = "font-normal",
-    infoTextSize = "text-xs",
-  } = props;
+const CustomLabel = ({
+  label,
+  info,
+  direction = "vertical",
+  spaceSize = 0,
+  infoColor = "",
+  infoFontWeight = "font-normal",
+  infoTextSize = "text-xs",
+}) => {
   return (
     <Space size={spaceSize} direction={direction}>
       <span className="block label-role leading-none">{label}</span>

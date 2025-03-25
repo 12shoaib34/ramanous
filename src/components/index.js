@@ -8,6 +8,8 @@ import FormSectionWithTitle from "./FormSectionWithTitle/FormSectionWithTitle";
 import FormSection from "./FormSection/FormSection";
 import FormContainer from "./FormContainer/FormContainer";
 import CustomLabel from "./CustomLabel/CustomLabel";
+import UploadListCard from "./UploadListCard/UploadListCard";
+import IconLabel from "./IconLabel/IconLabel";
 
 export {
   Aside,
@@ -20,4 +22,6 @@ export {
   FormSection,
   FormContainer,
   CustomLabel,
+  UploadListCard,
+  IconLabel,
 };

@@ -1,72 +1,123 @@
-import React from "react";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-  UserOutlined,
-  TeamOutlined,
-  FileTextOutlined,
-  BarChartOutlined,
-  ShoppingCartOutlined,
-  DollarOutlined,
-  ProfileOutlined,
-  NotificationOutlined,
-  MessageOutlined,
-  ExperimentOutlined,
-  CalendarOutlined,
-  DatabaseOutlined,
-  PieChartOutlined,
-  BookOutlined,
-  CreditCardOutlined,
-  CloudOutlined,
-  FolderOpenOutlined,
-} from "@ant-design/icons";
-import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
-
-const items = [
-  { key: "dashboard", icon: <AppstoreOutlined />, label: "Dashboard" },
-  { key: "products", icon: <AppstoreOutlined />, label: "Products" },
-  { key: "users", icon: <UserOutlined />, label: "Users" },
-  { key: "teams", icon: <TeamOutlined />, label: "Teams" },
-  { key: "projects", icon: <FolderOpenOutlined />, label: "Projects" },
-  { key: "tasks", icon: <FileTextOutlined />, label: "Tasks" },
-  { key: "analytics", icon: <BarChartOutlined />, label: "Analytics" },
-  { key: "sales", icon: <ShoppingCartOutlined />, label: "Sales" },
-  { key: "finance", icon: <DollarOutlined />, label: "Finance" },
-  { key: "profile", icon: <ProfileOutlined />, label: "Profile" },
-  { key: "notifications", icon: <NotificationOutlined />, label: "Notifications" },
-  { key: "messages", icon: <MessageOutlined />, label: "Messages" },
-  { key: "settings", icon: <SettingOutlined />, label: "Settings" },
-  { key: "experiments", icon: <ExperimentOutlined />, label: "Experiments" },
-  { key: "calendar", icon: <CalendarOutlined />, label: "Calendar" },
-  { key: "database", icon: <DatabaseOutlined />, label: "Database" },
-  { key: "reports", icon: <PieChartOutlined />, label: "Reports" },
-  { key: "documents", icon: <BookOutlined />, label: "Documents" },
-  { key: "billing", icon: <CreditCardOutlined />, label: "Billing" },
-  { key: "cloud", icon: <CloudOutlined />, label: "Cloud" },
-];
+import { AppstoreOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import AngleRight from "../../icons/AngleRight";
 
 const Aside = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Get current path
+  const [openMenus, setOpenMenus] = useState({});
 
-  const onClick = (e) => {
-    navigate(`/${e.key}`);
+  const toggleDropdown = (title) => {
+    setOpenMenus((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
+
+  const items = [
+    {
+      path: null,
+      title: "Lucky Draw",
+      icon: <AppstoreOutlined />,
+      disabled: false,
+      divider: false,
+      children: [
+        {
+          path: "/create-lucky-draw",
+          title: "Create Lucky Draw",
+          icon: null,
+          disabled: false,
+          divider: false,
+        },
+        {
+          path: "/list-lucky-draw",
+          title: "List Lucky Draw",
+          icon: null,
+          disabled: false,
+          divider: false,
+        },
+      ],
+    },
+  ];
+
+  const handleClick = (path) => {
+    if (path) navigate(path);
   };
 
   return (
-    <Menu
-      style={{ padding: "8px 0" }}
-      onClick={onClick}
-      className="w-full h-full overflow-auto hide-scrollbar"
-      defaultSelectedKeys={["dashboard"]}
-      mode="inline"
-      items={items.map((item) => ({
-        key: item.key,
-        icon: item.icon,
-        label: <span className="font-semibold">{item.label}</span>,
-      }))}
-    />
+    <div className="h-full w-full bg-nav-bg flex flex-col shadow-lg">
+      <div className="flex-grow overflow-auto w-full">
+        {items.map((item, index) => (
+          <div key={index} className="p-2">
+            {item.path === null && item.children ? (
+              <>
+                <button
+                  onClick={() => toggleDropdown(item.title)}
+                  disabled={item.disabled}
+                  className={`flex items-center justify-between w-full px-2 py-1 rounded-lg text-sm font-medium ${
+                    item.disabled ? "bg-white opacity-50 cursor-not-allowed" : "bg-transparent hover:bg-white"
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    {item.icon} {item.title}
+                  </span>
+                  <span>
+                    <AngleRight className={`${openMenus[item.title] ? "rotate-180" : ""}`} />
+                  </span>
+                </button>
+
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: openMenus[item.title] ? "auto" : 0, opacity: openMenus[item.title] ? 1 : 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  {item.children.map((child, idx) => {
+                    const isActive = location.pathname === child.path; // Check if current route is active
+
+                    return (
+                      <React.Fragment key={idx}>
+                        <button
+                          onClick={() => handleClick(child.path)}
+                          disabled={child.disabled}
+                          className={`w-full text-left px-8 py-1 rounded-lg text-sm font-medium ${
+                            child.disabled
+                              ? "bg-transparent opacity-50 cursor-not-allowed"
+                              : isActive
+                              ? "bg-white text-black font-bold" // Active state style
+                              : "bg-transparent hover:bg-white"
+                          }`}
+                        >
+                          {child.title}
+                        </button>
+                        {child.divider && <div className="border-t border-gray-600 my-2"></div>}
+                      </React.Fragment>
+                    );
+                  })}
+                </motion.div>
+              </>
+            ) : (
+              <button
+                onClick={() => handleClick(item.path)}
+                disabled={item.disabled}
+                className={`w-full flex items-center gap-2 p-3 rounded-lg ${
+                  item.disabled
+                    ? "bg-gray-700 opacity-50 cursor-not-allowed"
+                    : location.pathname === item.path
+                    ? "bg-white text-black font-bold" // Active state for parent menu items
+                    : "bg-gray-800 hover:bg-gray-700"
+                }`}
+              >
+                {item.icon} {item.title}
+              </button>
+            )}
+            {item.divider && <div className="border-t border-gray-600 my-2"></div>}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
