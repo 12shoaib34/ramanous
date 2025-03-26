@@ -6,8 +6,6 @@
   --background-secondary: #ffffff;
   --nav-bg: #ebebeb;
 
-  --color-text-secondary: #616161;
-
   --color-primary: #303030;
   --color-text: #616161;
   --color-text-label: var(--color-primary);
@@ -16,13 +14,16 @@
   --color-error-text: var(--color-primary);
   --color-focus: #005bd3;
   --active-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--color-focus);
+  --active-shadow-secondary: 0 0 0 2px #ffffff, 0 0 0 6px var(--color-focus);
 
   /* colors */
 
   --success-hint: #0a9c00;
   --danger-hint: #ff0000;
   --whisper-gray: #ebebeb;
+  --black-opacity-15: #00000026;
   --royal-blue: #383cef;
+  --dark-gray: #4a4a4a;
 
   /* Button */
 
@@ -89,9 +90,12 @@
   --color-success-hint: var(--success-hint);
   --color-danger-hint: var(--danger-hint);
   --color-whisper-gray: var(--whisper-gray);
+  --color-black-opacity-15: var(--black-opacity-15);
   --color-royal-blue: var(--royal-blue);
+  --color-dark-gray: var(--dark-gray);
 
   --shadow-active: var(--active-shadow);
+  --shadow-active-secondary: var(--active-shadow-secondary);
 
   /* Button */
 
@@ -139,9 +143,9 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Inter", sans-serif;
-  font-weight: var(--font-w-normal);
+  font-weight: 450;
   background-color: var(--background);
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   font-size: var(--text-size-325);
 }
 
@@ -246,4 +250,10 @@ label,
 .ant-upload-wrapper .ant-upload-drag .dragger-action {
   color: var(--royal-blue);
   font-weight: 550;
+}
+
+/* MODAL */
+
+.ant-modal .ant-modal-content {
+  padding: 0;
 }

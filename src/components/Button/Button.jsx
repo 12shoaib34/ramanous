@@ -32,6 +32,8 @@ const Button = ({
         case "light-primary":
         case "light-secondary":
           return "bg-transparent hover:bg-[#0000000D] active:bg-[#00000014] disabled:bg-transparent";
+        case "outlined-primary":
+          return "bg-transparent border border-button-primary hover:bg-button-primary-hover active:bg-button-primary-active disabled:bg-button-primary-disabled";
 
         case "light":
           return "bg-transparent active:opacity-70 hover:opacity-100 disabled:opacity-50 ";
@@ -53,6 +55,8 @@ const Button = ({
           return "text-button-primary";
         case "light-secondary":
           return "text-button-secondary";
+        case "outlined-primary":
+          return "text-button-primary hover:text-white";
         case "light":
           return "text-primary";
         default:

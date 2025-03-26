@@ -1,6 +1,15 @@
 import React from "react";
 
-const IconLabel = ({ icon = <></>, label, count = null, space = 4, countTheme = "" }) => {
+const IconLabel = ({
+  icon = <></>,
+  label,
+  count = null,
+  space = 4,
+  countTheme = "",
+  onClick = () => {},
+  role = "",
+  textSize = "text-xs",
+}) => {
   const renderCountTheme = (countTheme) => {
     switch (countTheme) {
       case "success":
@@ -10,18 +19,28 @@ const IconLabel = ({ icon = <></>, label, count = null, space = 4, countTheme = 
     }
   };
 
+  const renderIconLabelClass = () => {
+    let className = "flex items-center relative";
+
+    if (role === "button") {
+      className += " cursor-pointer hover:opacity-80 active:opacity-100 select-none";
+    }
+
+    return className;
+  };
+
   return (
-    <div style={{ gap: `${space}px` }} className="flex items-center relative">
+    <div onClick={onClick} role={role} style={{ gap: `${space}px` }} className={`${renderIconLabelClass()}`}>
       {icon}
-      <div className="flex items-center">
+      <div className={`flex items-center ${textSize}`}>
         {label}
         {count !== null && (
           <div
-            className={`rounded-full h-4 min-w-4 px-1 flex items-center justify-center text-xs relative -top-1 left-1 font-medium ${renderCountTheme(
+            className={`rounded-full h-4 min-w-4 px-1 flex items-center justify-center relative -top-1 left-1 font-medium ${renderCountTheme(
               countTheme
             )}`}
           >
-            <span className="text-xs leading-none font-medium">{count}</span>
+            <span className="leading-none font-medium">{count}</span>
           </div>
         )}
       </div>

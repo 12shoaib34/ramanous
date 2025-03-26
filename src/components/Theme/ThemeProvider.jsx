@@ -46,6 +46,7 @@ export const ThemeProvider = ({ children }) => {
         theme={{
           token: {
             colorPrimary: theme.colorPrimary,
+            colorLink: theme.colorPrimary,
             colorText: theme.colorText,
             colorFocus: theme.colorFocus,
             colorError: theme.colorError,
@@ -99,6 +100,13 @@ export const ThemeProvider = ({ children }) => {
               colorText: theme.colorPrimary,
               itemMarginBlock: 0,
               itemHeight: 28,
+            },
+            Modal: {
+              borderRadiusLG: 20,
+            },
+            Table: {
+              rowSelectedBg: "#ffffff",
+              rowSelectedHoverBg: "#fafafa",
             },
           },
         }}

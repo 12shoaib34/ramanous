@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 
-import { Dashboard, Login, CreateLuckyDraw, ListLuckyDraw } from "./screens";
+import { Dashboard, Login, CreateLuckyDraw, ListLuckyDraw, Entrants, Draw, AnalyticsEntries, Winners } from "./screens";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +19,24 @@ export const router = createBrowserRouter([
       {
         path: "list-lucky-draw",
         Component: ListLuckyDraw,
+      },
+      {
+        path: "draw",
+        Component: Draw,
+        children: [
+          {
+            path: "entrants/:id",
+            Component: Entrants,
+          },
+          {
+            path: "analytics-entries/:id",
+            Component: AnalyticsEntries,
+          },
+          {
+            path: "winners/:id",
+            Component: Winners,
+          },
+        ],
       },
     ],
   },

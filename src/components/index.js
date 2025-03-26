@@ -10,6 +10,8 @@ import FormContainer from "./FormContainer/FormContainer";
 import CustomLabel from "./CustomLabel/CustomLabel";
 import UploadListCard from "./UploadListCard/UploadListCard";
 import IconLabel from "./IconLabel/IconLabel";
+import AntModal from "./AntModal/AntModal";
+import ListDrawCard from "./ListDrawCard/ListDrawCard";
 
 export {
   Aside,
@@ -24,4 +26,6 @@ export {
   CustomLabel,
   UploadListCard,
   IconLabel,
+  AntModal,
+  ListDrawCard,
 };

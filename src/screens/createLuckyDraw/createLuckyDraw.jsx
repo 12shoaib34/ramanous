@@ -74,7 +74,7 @@ const CreateLuckyDraw = (props) => {
 export default CreateLuckyDraw;
 const FormHeader = () => {
   return (
-    <div className="flex justify-end items-center pt-2 pb-4 gap-2">
+    <div className="flex justify-end items-center pt-2 pb-4 gap-2 sticky top-0 left-0 z-10 bg-background">
       <Button htmlType="submit" theme="primary">
         Publish
       </Button>
