@@ -61,7 +61,7 @@ const Entrants = () => {
   ];
 
   return (
-    <div className="border border-black-opacity-15 bg-background-secondary py-5 rounded-xl">
+    <div className="border border-black-opacity-15 bg-background-secondary py-5 rounded-3xl">
       <div className="flex gap-8 pt-0 p-5 border-b border-whisper-gray">
         <div className="w-max flex items-center gap-3">
           <PeoplesIcon /> <h3 className="font-medium">Entrants</h3>
@@ -72,6 +72,7 @@ const Entrants = () => {
       </div>
       <div className="px-5 pt-5">
         <Table
+          scroll={{ x: "max-content" }}
           columns={columns}
           dataSource={data}
           pagination={{ pageSize: 10 }}

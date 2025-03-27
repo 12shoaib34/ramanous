@@ -29,9 +29,8 @@ const Root = () => {
 
   return (
     <div className="flex h-[100svh] overflow-hidden">
-      <div className="w-60 max-w-60 flex flex-col h-full overflow-hidden">
-        <Aside />
-      </div>
+      <Aside />
+
       <div className=" flex flex-col h-full overflow-auto flex-1">
         <Outlet />
       </div>

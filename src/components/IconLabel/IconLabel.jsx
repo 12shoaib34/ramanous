@@ -9,6 +9,7 @@ const IconLabel = ({
   onClick = () => {},
   role = "",
   textSize = "text-xs",
+  iconClass = "",
 }) => {
   const renderCountTheme = (countTheme) => {
     switch (countTheme) {
@@ -31,7 +32,7 @@ const IconLabel = ({
 
   return (
     <div onClick={onClick} role={role} style={{ gap: `${space}px` }} className={`${renderIconLabelClass()}`}>
-      {icon}
+      <span className={`leading-none ${iconClass}`}>{icon}</span>
       <div className={`flex items-center ${textSize}`}>
         {label}
         {count !== null && (

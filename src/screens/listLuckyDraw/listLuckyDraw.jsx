@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import React from "react";
 import SearchIcon from "../../icons/SearchIcon";
-import { AntModal, Button, IconLabel, ListDrawCard } from "../../components";
+import { AntModal, Button, Header, IconLabel, ListDrawCard } from "../../components";
 import PencilIcon from "../../icons/PencilIcon";
 import HtmlIcon from "../../icons/HtmlIcon";
 import PeoplesIcon from "../../icons/PeoplesIcon";
@@ -33,32 +33,35 @@ const ListLuckyDraw = () => {
   ];
 
   return (
-    <div className="p-4">
-      <div className="bg-background-secondary p-6">
-        <div>
-          <Input placeholder="Search draws" prefix={<SearchIcon />} />
-        </div>
-        <div className="flex items-center p-1.5 pr-6 rounded-2xl border border-whisper-gray shadow-soft-border mt-4">
-          <div className="flex items-center space-x-4">
-            {tabs.map((tab, i) => (
-              <div>
-                <button
-                  key={tab.key}
-                  className={`px-4 py-2 cursor-pointer font-medium ${activeTab === tab.key ? "text-royal-blue" : ""}`}
-                  onClick={() => setActiveTab(tab.key)}
-                >
-                  {tab.title}
-                </button>{" "}
-                {i !== tabs.length - 1 && <span className="text-black">|</span>}
-              </div>
+    <div>
+      <Header title="List" />
+      <div className="p-4">
+        <div className="bg-background-secondary p-6">
+          <div>
+            <Input placeholder="Search draws" prefix={<SearchIcon />} />
+          </div>
+          <div className="flex items-center p-1.5 pr-6 rounded-2xl border border-whisper-gray shadow-soft-border mt-4">
+            <div className="flex items-center">
+              {tabs.map((tab, i) => (
+                <>
+                  <button
+                    key={tab.key}
+                    className={`px-4 py-2 cursor-pointer font-medium ${activeTab === tab.key ? "text-royal-blue" : ""}`}
+                    onClick={() => setActiveTab(tab.key)}
+                  >
+                    {tab.title}
+                  </button>
+                  {i !== tabs.length - 1 && <span className="text-black">|</span>}
+                </>
+              ))}
+            </div>
+            <Button className="ml-auto">Create new draw</Button>
+          </div>
+          <div className="mt-4 flex flex-col gap-4">
+            {fakeDraws.map((draw) => (
+              <ListDrawCard key={draw.id} data={draw} />
             ))}
           </div>
-          <Button className="ml-auto">Create new draw</Button>
-        </div>
-        <div className="mt-4 flex flex-col gap-4">
-          {fakeDraws.map((draw) => (
-            <ListDrawCard key={draw.id} data={draw} />
-          ))}
         </div>
       </div>
     </div>

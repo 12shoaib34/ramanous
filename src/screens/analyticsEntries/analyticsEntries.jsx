@@ -5,6 +5,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import EyeIcon from "../../icons/EyeIcon";
 import EarthIcon from "../../icons/EarthIcon";
 import TvIcon from "../../icons/TvIcon";
+import IphoneIcon from "../../icons/IphoneIcon";
+import AndroidPhoneIcon from "./AndroidPhoneIcon";
 
 const generateRandomData = () => {
   return Array.from({ length: 30 }, (_, i) => ({
@@ -36,7 +38,7 @@ const AnalyticsEntries = () => {
   }, []);
 
   return (
-    <div className="border border-black-opacity-15 bg-background-secondary py-5 rounded-xl">
+    <div className="border border-black-opacity-15 bg-background-secondary py-5 rounded-3xl">
       <div className="flex gap-8 pt-0 p-5 border-b border-whisper-gray">
         <div className="w-max flex items-center gap-3">
           <ChartIcon /> <h3 className="font-medium">Analytics</h3>
@@ -52,7 +54,13 @@ const AnalyticsEntries = () => {
             Location
           </Button>
           <Button theme="outlined-primary" icon={<TvIcon />}>
-            Technology
+            Desktop
+          </Button>
+          <Button theme="outlined-primary" icon={<IphoneIcon />}>
+            iPhone
+          </Button>
+          <Button theme="outlined-primary" icon={<AndroidPhoneIcon />}>
+            Android
           </Button>
         </div>
         <ResponsiveContainer width="100%" height={300}>

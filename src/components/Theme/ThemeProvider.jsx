@@ -86,6 +86,7 @@ export const ThemeProvider = ({ children }) => {
               colorBorderHover: theme.inputBorderHover,
               colorBorderActive: theme.inputBorderActive,
               activeOutlineColor: theme.colorFocus,
+              optionSelectedBg: "#fafafa",
             },
 
             Button: {

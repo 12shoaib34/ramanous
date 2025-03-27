@@ -22,8 +22,8 @@ const CreateNewProduct = ({ form }) => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="bg-background-secondary py-2 pl-2.5 pr-3">Adding New Digital Product</div>
+    <div className="flex flex-col gap-4">
+      <div className="bg-background-secondary mt-2 py-2 pl-2.5 pr-3">Adding New Digital Product</div>
       <FormSection>
         <FormContainer>
           <Form.Item

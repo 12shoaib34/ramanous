@@ -15,9 +15,11 @@ const ListDrawCard = ({
   iconLabelProps = {},
   colGap = "gap-x-8",
   rowGap = "gap-y-2",
+  contentPadding = "p-5",
   className = "",
   maskBorder = true,
   editIconPosition = "center",
+  rounded = "rounded-3xl",
 }) => {
   const navigate = useNavigate();
 
@@ -32,8 +34,8 @@ const ListDrawCard = ({
   };
 
   return (
-    <div className={`rounded-3xl ${maskBorder ? "border border-black-opacity-15" : ""} ${className}`}>
-      <div className="border-b border-black-opacity-15 p-5">
+    <div className={`${rounded} ${maskBorder ? "border border-black-opacity-15" : ""} ${className}`}>
+      <div className={`border-b border-black-opacity-15 ${contentPadding}`}>
         <div className="flex justify-between items-center border-l-[6px] border-[#43B57B] pl-2 pb-2">
           <div>
             <div className="flex justify-between items-center">
@@ -44,13 +46,13 @@ const ListDrawCard = ({
                 </Button>
               )}
             </div>
-            <div className={`flex items-center flex-wrap text-sm ${colGap} ${rowGap}`}>
+            <div className={`flex items-center flex-wrap  ${colGap} ${rowGap}`}>
               <span className="flex items-center">
-                <CalenderIcon className="mr-2" />
-                <span className="text-success-hint mr-3">Starts:</span> 1 December, 2024
+                <CalenderIcon className="mr-2 hidden xl:block" />
+                <span className="text-success-hint mr-1 xl:mr-3">Starts:</span> 1 December, 2024
               </span>
               <span>
-                <span className="text-danger-hint mr-3">Ends:</span> 31 December, 2024 (12 days to go)
+                <span className="text-danger-hint mr-1 xl:mr-3">Ends:</span> 31 December, 2024 (12 days to go)
               </span>
               <span>Created 13 November, 2024</span>
             </div>
@@ -62,7 +64,9 @@ const ListDrawCard = ({
           )}
         </div>
       </div>
-      <div className={`p-4 flex items-center [&>span]:flex [&>span]:items-center [&>span]:gap-2 ${colGap} ${rowGap}`}>
+      <div
+        className={`flex items-center [&>span]:flex [&>span]:items-center [&>span]:gap-2 ${contentPadding} ${colGap} ${rowGap}`.trim()}
+      >
         <IconLabel
           {...iconLabelProps}
           onClick={toggleGiveawayModal}

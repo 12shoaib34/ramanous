@@ -17,7 +17,7 @@ const DigitalDownloadEntries = () => {
           <Form.List name="digital_download_entries">
             {(fields, { add, remove }) => (
               <>
-                <div className="flex gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
+                <div className="flex flex-wrap gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
                   <div className="flex gap-4 items-center">
                     <span className="label-role">Awards</span>
                     <Form.Item noStyle name={["award"]}>

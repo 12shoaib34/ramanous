@@ -117,7 +117,7 @@ const Button = ({
 
   return (
     <button type={htmlType} disabled={disabled || loading} {...rest} className={`${className} ${renderTheme()}`.trim()}>
-      <span className={`flex items-center justify-center ${iconGap}`}>
+      <span className={`flex items-center justify-center whitespace-nowrap ${iconGap}`}>
         {icon && icon} {children}
       </span>
     </button>
