@@ -9,6 +9,7 @@ import ChartIcon from "../../icons/ChartIcon";
 import TrophyIcon from "../../icons/TrophyIcon";
 import AntModal from "../AntModal/AntModal";
 import { useNavigate } from "react-router-dom";
+import moment from "moment"; // Use moment.js for date formatting
 
 const ListDrawCard = ({
   data,
@@ -33,13 +34,26 @@ const ListDrawCard = ({
     navigate(`${path}/${data?.id}`);
   };
 
+  // Define formatDate function correctly *before* the return statement
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      // Example format: "dd MMMM, yyyy" -> "13 November, 2024"
+      // Adjust moment format string as needed
+      return moment(dateString).format("DD MMMM, YYYY");
+    } catch (e) {
+      console.error("Error formatting date:", e);
+      return dateString; // Return original string if formatting fails
+    }
+  }; // End of function definition
+
   return (
     <div className={`${rounded} ${maskBorder ? "border border-black-opacity-15" : ""} ${className}`}>
       <div className={`border-b border-black-opacity-15 ${contentPadding}`}>
         <div className="flex justify-between items-center border-l-[6px] border-[#43B57B] pl-2 pb-2">
           <div>
             <div className="flex justify-between items-center">
-              <h3 className="font-semibold mb-2">{data?.title}</h3>
+              <h3 className="font-semibold mb-2">{data?.title || "Untitled Draw"}</h3>
               {editIconPosition === "topRight" && (
                 <Button theme="light" size="fit" shape="circle">
                   <PencilIcon />
@@ -49,12 +63,13 @@ const ListDrawCard = ({
             <div className={`flex items-center flex-wrap  ${colGap} ${rowGap}`}>
               <span className="flex items-center">
                 <CalenderIcon className="mr-2 hidden xl:block" />
-                <span className="text-success-hint mr-1 xl:mr-3">Starts:</span> 1 December, 2024
+                <span className="text-success-hint mr-1 xl:mr-3">Starts:</span> {formatDate(data?.startDateTime)}
               </span>
               <span>
-                <span className="text-danger-hint mr-1 xl:mr-3">Ends:</span> 31 December, 2024 (12 days to go)
+                <span className="text-danger-hint mr-1 xl:mr-3">Ends:</span> {formatDate(data?.endDateTime)}{" "}
+                {/* TODO: Add 'days to go' logic if needed */}
               </span>
-              <span>Created 13 November, 2024</span>
+              <span>Created {formatDate(data?.createdAt)}</span>
             </div>
           </div>
           {editIconPosition === "center" && (
@@ -104,7 +119,7 @@ const ListDrawCard = ({
 
       <AntModal padding="p-0" width={480} open={giveawayModal} onClose={toggleGiveawayModal}>
         <div className="p-6 text-center border-b border-whisper-gray">
-          <h3 className="font-medium text-xl">Win a R32 GTR Giveaway</h3>
+          <h3 className="font-medium text-xl">{data?.title || "Giveaway Details"}</h3>
         </div>
         <div className="text-center p-6">
           <p className="text-xs mb-10 text-dark-gray">

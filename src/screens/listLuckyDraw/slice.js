@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getLuckyDraws } from "./thunk";
+import { createLuckyDraw, getLuckyDraws } from "./thunk";
 
 const luckyDrawReducer = createSlice({
   name: "listLuckyDraw",
   initialState: {
     isLoading: false,
+    createLuckyDrawLoading: false,
     luckyDraws: [],
   },
   reducers: {},
@@ -18,6 +19,16 @@ const luckyDrawReducer = createSlice({
     });
     builder.addCase(getLuckyDraws.rejected, (state) => {
       state.isLoading = false;
+    });
+
+    builder.addCase(createLuckyDraw.pending, (state) => {
+      state.createLuckyDrawLoading = true;
+    });
+    builder.addCase(createLuckyDraw.fulfilled, (state) => {
+      state.createLuckyDrawLoading = false;
+    });
+    builder.addCase(createLuckyDraw.rejected, (state) => {
+      state.createLuckyDrawLoading = false;
     });
   },
 });

@@ -40,9 +40,9 @@ const DrawAreaDetails = ({ form }) => {
         >
           <Checkbox.Group>
             <Space direction="vertical">
-              <Checkbox value={1}>Paid subscribers + Package buyers</Checkbox>
-              <Checkbox value={2}>Paid subscribers ONLY</Checkbox>
-              <Checkbox value={3}>Package buyers ONLY</Checkbox>
+              <Checkbox value={"PAID_AND_BUYER"}>Paid subscribers + Package buyers</Checkbox>
+              <Checkbox value={"PAID"}>Paid subscribers ONLY</Checkbox>
+              <Checkbox value={"BUYER"}>Package buyers ONLY</Checkbox>
             </Space>
           </Checkbox.Group>
         </Form.Item>
@@ -51,7 +51,14 @@ const DrawAreaDetails = ({ form }) => {
       <FormContainer divider>
         <div className="grid grid-cols-4 items-center mt-form-item-spacing">
           <Form.Item className="col-span-1" name="isUnlimited" valuePropName="checked">
-            <Checkbox value={1}>
+            <Checkbox
+              value={1}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  form.setFieldValue("entrantsCap", undefined); // Clear entrantsCap when unlimited is checked
+                }
+              }}
+            >
               <span className="font-medium">Unlimited</span>
             </Checkbox>
           </Form.Item>

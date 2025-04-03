@@ -1,14 +1,15 @@
-import { Input } from "antd";
+import { Alert, Input, Spin } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountries } from "../../common/thunk";
 import { Button, Header, ListDrawCard } from "../../components";
-import { fakeDraws } from "../../fakeData";
 import SearchIcon from "../../icons/SearchIcon";
 import { getLuckyDraws } from "./thunk";
+import { useNavigate } from "react-router-dom";
 
 const ListLuckyDraw = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getLuckyDraws());
@@ -17,7 +18,7 @@ const ListLuckyDraw = () => {
 
   const [activeTab, setActiveTab] = React.useState("CURRENT_DRAWS");
 
-  const luckyDraws = useSelector((state) => state?.luckyDraws);
+  const luckyDraws = useSelector((state) => state.luckyDraws); // Destructure state
   const countries = useSelector((state) => state?.common?.countries);
 
   const tabs = [
@@ -38,6 +39,10 @@ const ListLuckyDraw = () => {
       title: "Completed draws",
     },
   ];
+
+  const onNavigateToCreate = () => {
+    navigate("/create-lucky-draw");
+  };
 
   return (
     <div>
@@ -61,12 +66,33 @@ const ListLuckyDraw = () => {
                 </React.Fragment>
               ))}
             </div>
-            <Button className="ml-auto">Create new draw</Button>
+            <Button onClick={onNavigateToCreate} className="ml-auto">
+              Create new draw
+            </Button>
           </div>
           <div className="mt-4 flex flex-col gap-4">
-            {fakeDraws.map((draw) => (
-              <ListDrawCard key={draw.id} data={draw} />
-            ))}
+            {luckyDraws?.loading && <Spin size="large" className="self-center" />}
+
+            {!luckyDraws?.loading && luckyDraws?.luckyDraws.length === 0 && (
+              <Alert message="No lucky draws found." type="info" showIcon />
+            )}
+            {!luckyDraws?.loading &&
+              luckyDraws?.luckyDraws?.map((draw) => (
+                <ListDrawCard
+                  key={draw.luckyDrawId}
+                  data={{
+                    id: draw.luckyDrawId, // Pass luckyDrawId as id
+                    title: draw.luckyDrawName, // Use luckyDrawName for title
+                    startDateTime: draw.startDateTime,
+                    endDateTime: draw.endDateTime,
+                    createdAt: draw.createdAt,
+                    // Add other relevant fields if ListDrawCard uses them, e.g., entrantsCount (defaulting if not present)
+                    entrantsCount: draw.entrantsCount || 0, // Example default
+                    status: draw.status, // Pass status if needed by ListDrawCard
+                    // Map other fields from 'draw' to 'data' as required by ListDrawCard
+                  }}
+                />
+              ))}
           </div>
         </div>
       </div>

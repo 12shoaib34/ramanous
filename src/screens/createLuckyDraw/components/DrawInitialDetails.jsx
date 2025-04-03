@@ -1,9 +1,13 @@
 import React from "react";
 import { FormSection, FormContainer, AntDatePicker, AntTimePicker, CustomLabel } from "../../../components";
 import { Form, Input, Select } from "antd";
+import moment from "moment-timezone"; // Import moment-timezone
 
 const DrawInitialDetails = (props) => {
   const { form } = props;
+
+  // Get time zone names from moment-timezone
+  const timeZoneNames = moment.tz.names();
 
   return (
     <FormSection>
@@ -84,9 +88,16 @@ const DrawInitialDetails = (props) => {
       <FormContainer>
         <div className="mt-form-item-spacing">
           <Form.Item className="input-max-w-base" label="Draw Time Zone" name="timeZone" rules={[{ required: true }]}>
-            <Select placeholder="Select a time zone">
-              <Select.Option value="1">1</Select.Option>
-            </Select>
+            <Select
+              showSearch // Enable searching
+              placeholder="Select a time zone"
+              optionFilterProp="children" // Search based on the option text
+              filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())} // Basic case-insensitive search
+              options={timeZoneNames.map((tz) => ({
+                value: tz, // Use the time zone name as the value
+                label: tz, // Use the time zone name as the label
+              }))}
+            />
           </Form.Item>
         </div>
       </FormContainer>

@@ -1,6 +1,7 @@
 import { notification } from "antd";
 import { appTokenKey } from "../utils/constants";
 import axios from "axios";
+import { create } from "framer-motion/client";
 
 const baseUrl = "http://192.168.0.116:3000";
 
@@ -9,6 +10,7 @@ const endPoints = {
   getLuckyDraws: "/luckyDraw/my-luckyDraw",
   getCountries: "/country",
   getProducts: "/product",
+  createLuckyDraw: "/luckyDraw/create",
 };
 
 const invokeApi = async ({ method = "GET", url, payload = {}, params = {}, headers = {} }) => {
