@@ -6,7 +6,7 @@ const NonQualifyingOrdersMessage = () => {
   return (
     <FormSection>
       <FormContainer>
-        <Form.Item label={"Non-qualifying orders message"} name="non_qualifying_orders_message">
+        <Form.Item label={"Non-qualifying orders message"} name="message">
           <Input.TextArea placeholder="Non-qualifying orders message" maxLength={160} showCount type="text" rows={5} />
         </Form.Item>
       </FormContainer>

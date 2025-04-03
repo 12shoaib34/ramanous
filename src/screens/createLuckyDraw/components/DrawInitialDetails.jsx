@@ -20,7 +20,7 @@ const DrawInitialDetails = (props) => {
               spaceSize={10}
             />
           }
-          name="internal_draw_name"
+          name="luckyDrawName"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input type="text" />
@@ -37,7 +37,7 @@ const DrawInitialDetails = (props) => {
               spaceSize={10}
             />
           }
-          name="public_draw_name"
+          name="publicName"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input type="text" />
@@ -49,7 +49,7 @@ const DrawInitialDetails = (props) => {
           <Form.Item
             className="col-span-2 mb-0"
             label="Starting On..."
-            name="start_date"
+            name="startDateTime"
             rules={[{ required: true, message: "Please select a date!" }]}
           >
             <AntDatePicker placeholder="Select a date" />
@@ -57,7 +57,7 @@ const DrawInitialDetails = (props) => {
           <Form.Item
             className="col-span-1 mb-0"
             label="Start Time"
-            name="start_time"
+            name="startTime"
             rules={[{ required: true, message: "  " }]}
           >
             <AntTimePicker placeholder="Pick" />
@@ -65,7 +65,7 @@ const DrawInitialDetails = (props) => {
           <Form.Item
             className="col-span-2 mb-0"
             label="Ending On..."
-            name="end_date"
+            name="endDateTime"
             rules={[{ required: true, message: "Please select a date!" }]}
           >
             <AntDatePicker placeholder="Select a date" />
@@ -73,7 +73,7 @@ const DrawInitialDetails = (props) => {
           <Form.Item
             className="col-span-1 mb-0"
             label="End Time"
-            name="end_time"
+            name="endTime"
             rules={[{ required: true, message: "  " }]}
           >
             <AntTimePicker placeholder="Pick" />
@@ -83,7 +83,7 @@ const DrawInitialDetails = (props) => {
 
       <FormContainer>
         <div className="mt-form-item-spacing">
-          <Form.Item className="input-max-w-base" label="Draw Time Zone" name="time_zone" rules={[{ required: true }]}>
+          <Form.Item className="input-max-w-base" label="Draw Time Zone" name="timeZone" rules={[{ required: true }]}>
             <Select placeholder="Select a time zone">
               <Select.Option value="1">1</Select.Option>
             </Select>

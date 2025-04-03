@@ -38,7 +38,13 @@ export const ThemeProvider = ({ children }) => {
     });
   }, []);
 
-  console.log(theme);
+  const fieldsDefaultSetting = {
+    colorBorder: theme.inputBorder,
+    colorBorderHover: theme.inputBorderHover,
+    colorBorderActive: theme.inputBorderActive,
+    activeShadow: theme.activeShadow,
+    errorActiveShadow: theme.activeShadow,
+  };
 
   return (
     <ThemeContext.Provider value={theme}>
@@ -59,27 +65,16 @@ export const ThemeProvider = ({ children }) => {
             },
 
             Input: {
-              colorBorder: theme.inputBorder,
-              colorBorderHover: theme.inputBorderHover,
-              colorBorderActive: theme.inputBorderActive,
-              activeShadow: theme.activeShadow,
-              errorActiveShadow: theme.activeShadow,
-              colorErrorBg: "red",
+              ...fieldsDefaultSetting,
+              paddingBlock: 8,
             },
             InputNumber: {
-              colorBorder: theme.inputBorder,
-              colorBorderHover: theme.inputBorderHover,
-              colorBorderActive: theme.inputBorderActive,
-              activeShadow: theme.activeShadow,
-              errorActiveShadow: theme.activeShadow,
-              colorErrorBg: "red",
+              ...fieldsDefaultSetting,
+              paddingBlock: 8,
             },
             DatePicker: {
-              colorBorder: theme.inputBorder,
-              colorBorderHover: theme.inputBorderHover,
-              colorBorderActive: theme.inputBorderActive,
-              activeShadow: theme.activeShadow,
-              errorActiveShadow: theme.activeShadow,
+              ...fieldsDefaultSetting,
+              controlHeight: 40,
             },
             Select: {
               colorBorder: theme.inputBorder,
@@ -87,6 +82,8 @@ export const ThemeProvider = ({ children }) => {
               colorBorderActive: theme.inputBorderActive,
               activeOutlineColor: theme.colorFocus,
               optionSelectedBg: "#fafafa",
+              multipleItemHeightLG: 50,
+              controlHeight: 40,
             },
 
             Button: {

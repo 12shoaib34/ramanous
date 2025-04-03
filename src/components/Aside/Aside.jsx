@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import AngleRight from "../../icons/AngleRight";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../../commonSlice";
+import { toggleMenu } from "../../common/slice";
 
 const Aside = () => {
   const navigate = useNavigate();

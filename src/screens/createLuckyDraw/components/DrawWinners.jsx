@@ -6,7 +6,7 @@ const DrawWinners = () => {
   return (
     <FormSection>
       <FormContainer>
-        <Form.Item label={<CustomLabel label="Winners" info="How many winners?" />} name="winners">
+        <Form.Item label={<CustomLabel label="Winners" info="How many winners?" />} name="winnersCount">
           <InputNumber placeholder="Winners" style={{ width: "140px" }} />
         </Form.Item>
       </FormContainer>

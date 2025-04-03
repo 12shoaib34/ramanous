@@ -1,17 +1,24 @@
 import { Input } from "antd";
-import React from "react";
-import SearchIcon from "../../icons/SearchIcon";
-import { AntModal, Button, Header, IconLabel, ListDrawCard } from "../../components";
-import PencilIcon from "../../icons/PencilIcon";
-import HtmlIcon from "../../icons/HtmlIcon";
-import PeoplesIcon from "../../icons/PeoplesIcon";
-import ChartIcon from "../../icons/ChartIcon";
-import TrophyIcon from "../../icons/TrophyIcon";
-import CalenderIcon from "../../icons/CalenderIcon";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCountries } from "../../common/thunk";
+import { Button, Header, ListDrawCard } from "../../components";
 import { fakeDraws } from "../../fakeData";
+import SearchIcon from "../../icons/SearchIcon";
+import { getLuckyDraws } from "./thunk";
 
 const ListLuckyDraw = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getLuckyDraws());
+    dispatch(getCountries());
+  }, []);
+
   const [activeTab, setActiveTab] = React.useState("CURRENT_DRAWS");
+
+  const luckyDraws = useSelector((state) => state?.luckyDraws);
+  const countries = useSelector((state) => state?.common?.countries);
 
   const tabs = [
     {
@@ -43,16 +50,15 @@ const ListLuckyDraw = () => {
           <div className="flex items-center p-1.5 pr-6 rounded-2xl border border-whisper-gray shadow-soft-border mt-4">
             <div className="flex items-center">
               {tabs.map((tab, i) => (
-                <>
+                <React.Fragment key={tab.key}>
                   <button
-                    key={tab.key}
                     className={`px-4 py-2 cursor-pointer font-medium ${activeTab === tab.key ? "text-royal-blue" : ""}`}
                     onClick={() => setActiveTab(tab.key)}
                   >
                     {tab.title}
                   </button>
                   {i !== tabs.length - 1 && <span className="text-black">|</span>}
-                </>
+                </React.Fragment>
               ))}
             </div>
             <Button className="ml-auto">Create new draw</Button>

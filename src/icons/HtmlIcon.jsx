@@ -5,7 +5,7 @@ const HtmlIcon = ({ className = "" }) => {
     <svg
       stroke="currentColor"
       fill="#1A1A1A"
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 512 512"
       height="1em"
       width="1em"

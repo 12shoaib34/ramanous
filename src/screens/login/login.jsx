@@ -1,23 +1,31 @@
-import React from "react";
-import { Form, Input, Button, Card, Checkbox } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, Card, Checkbox } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { signin } from "./thunk";
+import { Button } from "../../components";
 
 const Login = () => {
   const navigate = useNavigate();
-  const onFinish = (values) => {
-    localStorage.setItem(
-      "token",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
-    );
+  const dispatch = useDispatch();
 
-    navigate("/");
+  const authState = useSelector((state) => state.auth);
+
+  const onFinish = async (values) => {
+    const payload = { ...values };
+    dispatch(signin(payload));
   };
+
+  useEffect(() => {
+    if (authState?.isAuthenticated) {
+      navigate("/");
+    }
+  }, [authState]);
 
   return (
     <div className="container flex justify-center items-center min-h-screen">
       <Card title="Login" className="w-full max-w-md shadow-md">
         <Form name="login" layout="vertical" onFinish={onFinish} autoComplete="off">
-          {/* Email Input */}
           <Form.Item
             label="Email"
             name="email"
@@ -29,7 +37,6 @@ const Login = () => {
             <Input placeholder="Enter your email" />
           </Form.Item>
 
-          {/* Password Input */}
           <Form.Item
             label="Password"
             name="password"
@@ -42,7 +49,7 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button className="w-full" loading={authState.signinLoading} type htmlType="submit" block>
               Login
             </Button>
           </Form.Item>

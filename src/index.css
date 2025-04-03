@@ -184,11 +184,11 @@ body {
 /* UTILITIES */
 
 @utility shadow-soft-bottom {
-  box-shadow: 0px 4px 4px 0px #8282821f;
+  box-shadow: 0px 2px 2px 0px #8282821f;
 }
 
 @utility shadow-soft-right {
-  box-shadow: 4px 0px 4px 0px #8282821f;
+  box-shadow: 2px 0px 10px 0px #8282821f;
 }
 
 @utility shadow-soft-black {
@@ -230,7 +230,8 @@ body {
 .ant-input-status-error.ant-input.ant-input-outlined:hover,
 .ant-input-affix-wrapper.ant-input-outlined.ant-input-status-error.ant-input-password,
 .ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled),
-.ant-select-outlined.ant-select-status-error:not(.ant-select-customize-input) .ant-select-selector {
+.ant-select-outlined.ant-select-status-error:not(.ant-select-customize-input) .ant-select-selector,
+.ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
   background-color: var(--color-error-bg) !important;
   color: var(--color-primary);
 }
@@ -264,7 +265,3 @@ label,
 }
 
 /* MODAL */
-
-.ant-modal .ant-modal-content {
-  padding: 0;
-}

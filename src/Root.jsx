@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./components/Theme/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAuth } from "./screens/login/authSlice";
+import { checkAuth } from "./screens/login/thunk";
 import { Aside } from "./components";
 
 const Root = () => {
@@ -24,7 +24,7 @@ const Root = () => {
   }
 
   if (isAuthenticated && location.pathname === "/") {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/list-lucky-draw" replace />;
   }
 
   return (

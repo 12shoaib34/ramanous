@@ -2,6 +2,7 @@ import { Form } from "antd";
 import React from "react";
 import { Button, FormContainer, FormSectionWithTitle, Header, ProductRow } from "../../components";
 import PlusIcon from "../../icons/PlusIcon";
+import CreateNewProduct from "./components/CreateNewProduct";
 import DigitalDownloadEntries from "./components/DigitalDownloadEntries";
 import DrawAreaDetails from "./components/DrawAreaDetails";
 import DrawInitialDetails from "./components/DrawInitialDetails";
@@ -9,15 +10,11 @@ import DrawWinners from "./components/DrawWinners";
 import NonQualifyingOrdersMessage from "./components/NonQualifyingOrdersMessage";
 import PhysicalStoreEntries from "./components/PhysicalStoreEntries";
 import SeoDetails from "./components/SeoDetails";
-import CreateNewProduct from "./components/CreateNewProduct";
 
 const CreateLuckyDraw = (props) => {
   const [form] = Form.useForm();
 
-  const onUploadMetaImage = (file) => {
-    form.setFieldValue("meta_image", file);
-    return false;
-  };
+  const [activeTab, setActiveTab] = React.useState("CURRENT_DRAWS");
 
   return (
     <div>

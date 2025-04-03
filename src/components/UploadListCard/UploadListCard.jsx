@@ -3,8 +3,6 @@ import Button from "../Button/Button";
 import DeleteIcon from "../../icons/DeleteIcon";
 
 const UploadListCard = ({ file, imageUrl = "", onDelete = () => {} }) => {
-  console.log(file);
-
   const base64Url = useMemo(() => {
     if (file) {
       return URL.createObjectURL(file?.originFileObj);

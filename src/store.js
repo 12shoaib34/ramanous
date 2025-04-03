@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import commonSlice from "./commonSlice";
-import authReducer from "./screens/login/authSlice";
+import commonReducer from "./common/slice";
+import authReducer from "./screens/login/slice";
+import luckyDrawReducer from "./screens/listLuckyDraw/slice";
 
 export default configureStore({
   reducer: {
-    common: commonSlice,
+    common: commonReducer,
     auth: authReducer,
+    luckyDraws: luckyDrawReducer,
   },
 });
