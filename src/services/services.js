@@ -8,6 +8,7 @@ const endPoints = {
   signin: "/signin",
   getLuckyDraws: "/luckyDraw/my-luckyDraw",
   getCountries: "/country",
+  getProducts: "/product",
 };
 
 const invokeApi = async ({ method = "GET", url, payload = {}, params = {}, headers = {} }) => {

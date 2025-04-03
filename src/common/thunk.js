@@ -6,3 +6,9 @@ export const getCountries = createAsyncThunk("common/getCountries", async () => 
 
   return response.data;
 });
+
+export const getProducts = createAsyncThunk("common/getProducts", async () => {
+  let response = await invokeApi({ method: "GET", url: endPoints.getProducts });
+
+  return response.data;
+});

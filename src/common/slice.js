@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCountries } from "./thunk";
+import { getCountries, getProducts } from "./thunk";
 
 const commonReducer = createSlice({
   name: "common",
   initialState: {
     isMenuOpen: false,
     countries: {
+      data: [],
+      loading: false,
+    },
+    products: {
       data: [],
       loading: false,
     },
@@ -25,6 +29,16 @@ const commonReducer = createSlice({
     });
     builder.addCase(getCountries.rejected, (state) => {
       state.countries.loading = false;
+    });
+    builder.addCase(getProducts.pending, (state) => {
+      state.products.loading = true;
+    });
+    builder.addCase(getProducts.fulfilled, (state, { payload }) => {
+      state.products.loading = false;
+      state.products.data = payload;
+    });
+    builder.addCase(getProducts.rejected, (state) => {
+      state.products.loading = false;
     });
   },
 });

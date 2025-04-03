@@ -12,6 +12,7 @@ import UploadListCard from "./UploadListCard/UploadListCard";
 import IconLabel from "./IconLabel/IconLabel";
 import AntModal from "./AntModal/AntModal";
 import ListDrawCard from "./ListDrawCard/ListDrawCard";
+import SelectProduct from "./SelectProduct/SelectProduct";
 
 export {
   Aside,
@@ -28,4 +29,5 @@ export {
   IconLabel,
   AntModal,
   ListDrawCard,
+  SelectProduct,
 };

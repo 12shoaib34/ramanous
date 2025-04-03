@@ -34,7 +34,7 @@ const DrawAreaDetails = ({ form }) => {
     <FormSection>
       <FormContainer divider>
         <Form.Item
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please select which users this draw is open to" }]}
           label={<CustomLabel label="This draw is open to which users?" info="Select one or multiple" />}
           name="drawTypes"
         >
@@ -63,6 +63,12 @@ const DrawAreaDetails = ({ form }) => {
                   className="col-span-3"
                   label={<CustomLabel label="Entrants cap" info="How many max Entrants for this draw" />}
                   name="entrantsCap"
+                  rules={[
+                    {
+                      required: !isUnlimited, // Required only if 'isUnlimited' is false
+                      message: "Please enter the entrants cap",
+                    },
+                  ]}
                 >
                   <Input disabled={isUnlimited} placeholder="Entrants cap" type="number" />
                 </Form.Item>
@@ -77,6 +83,7 @@ const DrawAreaDetails = ({ form }) => {
           <Form.Item
             label={<CustomLabel label="Which areas are eligible for the draw?" info="Select one or multiple" />}
             name="countryIds"
+            rules={[{ required: true, message: "Please select at least one country" }]}
           >
             <Select
               placeholder="Search or select"
@@ -124,7 +131,10 @@ const DrawAreaDetails = ({ form }) => {
                 </div>
               </FormContainer>
               <FormContainer divider>
-                <Form.Item name={normalizeString(country?.name)}>
+                <Form.Item
+                  name={normalizeString(country?.name)}
+                  rules={[{ required: true, message: `Please select states/regions for ${country.name}` }]}
+                >
                   {/* We need access to the current value to control the "All" checkbox */}
                   <Form.Item shouldUpdate noStyle>
                     {({ getFieldValue }) => {

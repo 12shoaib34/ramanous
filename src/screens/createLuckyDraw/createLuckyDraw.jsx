@@ -1,6 +1,6 @@
 import { Form } from "antd";
-import React from "react";
-import { Button, FormContainer, FormSectionWithTitle, Header, ProductRow } from "../../components";
+import React, { useEffect } from "react";
+import { Button, FormContainer, FormSectionWithTitle, Header, ProductRow, SelectProduct } from "../../components";
 import PlusIcon from "../../icons/PlusIcon";
 import CreateNewProduct from "./components/CreateNewProduct";
 import DigitalDownloadEntries from "./components/DigitalDownloadEntries";
@@ -10,14 +10,24 @@ import DrawWinners from "./components/DrawWinners";
 import NonQualifyingOrdersMessage from "./components/NonQualifyingOrdersMessage";
 import PhysicalStoreEntries from "./components/PhysicalStoreEntries";
 import SeoDetails from "./components/SeoDetails";
+import { getProducts } from "../../common/thunk";
+import { useDispatch, useSelector } from "react-redux";
 
 const CreateLuckyDraw = (props) => {
   const [form] = Form.useForm();
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
   const [activeTab, setActiveTab] = React.useState("CURRENT_DRAWS");
+
+  const products = useSelector((state) => state?.common?.products);
 
   return (
     <div>
+      <SelectProduct open />
       <Header title="Create New Lucky Draw" />
       <Form requiredMark={false} form={form} layout="vertical">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 px-5 pb-2 pt-2">
