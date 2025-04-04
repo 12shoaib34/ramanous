@@ -2,7 +2,7 @@ import { Form, notification } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountries, getProducts } from "../../common/thunk";
-import { Button, Header } from "../../components";
+import { Button, FormContainer, FormSectionWithTitle, Header, ProductRow } from "../../components";
 import { normalizeString } from "../../utils/helper";
 import DigitalDownloadEntries from "./components/DigitalDownloadEntries";
 import DrawAreaDetails from "./components/DrawAreaDetails";
@@ -13,6 +13,7 @@ import PhysicalStoreEntries from "./components/PhysicalStoreEntries";
 import SeoDetails from "./components/SeoDetails";
 import { createLuckyDraw } from "../listLuckyDraw/thunk";
 import { useNavigate } from "react-router-dom";
+import PlusIcon from "../../icons/PlusIcon";
 
 const CreateLuckyDraw = (props) => {
   const [form] = Form.useForm();
@@ -114,14 +115,14 @@ const CreateLuckyDraw = (props) => {
           <div>
             <FormHeader loading={luckyDraws?.createLuckyDrawLoading} />
             <div className="flex flex-col gap-form-item-spacing">
-              {/* <DrawInitialDetails form={form} />
+              <DrawInitialDetails form={form} />
               <SeoDetails form={form} />
               <DrawAreaDetails form={form} />
-              <DrawWinners form={form} /> */}
+              <DrawWinners form={form} />
               <DigitalDownloadEntries form={form} />
               <PhysicalStoreEntries form={form} />
-              {/* <NonQualifyingOrdersMessage form={form} /> */}
-              {/* <FormSectionWithTitle title="Digital download products (5)">
+              <NonQualifyingOrdersMessage form={form} />
+              <FormSectionWithTitle title="Digital download products (5)">
                 <FormContainer>
                   <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
                   <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
@@ -148,7 +149,7 @@ const CreateLuckyDraw = (props) => {
                     </Button>
                   </div>
                 </FormContainer>
-              </FormSectionWithTitle> */}
+              </FormSectionWithTitle>
             </div>
           </div>
 

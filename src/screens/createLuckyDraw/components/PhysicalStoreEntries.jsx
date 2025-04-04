@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { Form, InputNumber, Checkbox, DatePicker, Space } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { FormContainer, FormSectionWithTitle, Button, AntDatePicker } from "../../../components";
+import { Checkbox, Form, InputNumber } from "antd";
+import dayjs from "dayjs";
+import React from "react";
+import { AntDatePicker, Button, FormContainer, FormSectionWithTitle } from "../../../components";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import PlusIcon from "../../../icons/PlusIcon";
-import dayjs from "dayjs";
 
 const PhysicalStoreEntries = () => {
   const isProductSelected = true; // Assuming products are selected for now, adjust as needed
@@ -29,6 +28,24 @@ const PhysicalStoreEntries = () => {
               ];
               const startDateTime = getFieldValue("startDateTime");
               const startTime = getFieldValue("startTime");
+              const combinedStartDateTime =
+                startDateTime && startTime
+                  ? dayjs(startDateTime)
+                      .hour(dayjs(startTime).hour())
+                      .minute(dayjs(startTime).minute())
+                      .second(dayjs(startTime).second())
+                  : null;
+
+              const endDateTime = getFieldValue("endDateTime");
+              const endTime = getFieldValue("endTime");
+              const combinedEndDateTime =
+                endDateTime && endTime
+                  ? dayjs(endDateTime)
+                      .hour(dayjs(endTime).hour())
+                      .minute(dayjs(endTime).minute())
+                      .second(dayjs(endTime).second())
+                  : null;
+
               const secondLastExpiry = physicalStoreEntries[physicalStoreEntries.length - 2]?.expires;
               const lastExpiry = physicalStoreEntries[physicalStoreEntries.length - 1]?.expires;
               const isBoosted = physicalStoreEntries.some((entry) => entry.type === true);
@@ -39,6 +56,7 @@ const PhysicalStoreEntries = () => {
                     {
                       productType: "PHYSICAL", // Changed type
                       type: false,
+                      startDate: combinedStartDateTime,
                     },
                   ]}
                   name="physicalStoreEntries" // Changed name
@@ -118,11 +136,15 @@ const PhysicalStoreEntries = () => {
                                     <AntDatePicker
                                       placeholder="Select date"
                                       disabled={(!secondLastExpiry && index > 1) || fields?.length - 1 > index}
-                                      disabledDate={(current) =>
-                                        secondLastExpiry
+                                      disabledDate={(current) => {
+                                        const isBeforeStartDate = secondLastExpiry
                                           ? current <= secondLastExpiry
-                                          : current <= startDateTime || dayjs(current).isBefore(startTime, "day")
-                                      }
+                                          : current <= startDateTime || dayjs(current).isBefore(startTime, "day");
+                                        const isAfterEndDate = combinedEndDateTime
+                                          ? current > combinedEndDateTime
+                                          : false;
+                                        return isBeforeStartDate || isAfterEndDate;
+                                      }}
                                       format="DD MMM, YY"
                                     />
                                   </Form.Item>
@@ -144,14 +166,19 @@ const PhysicalStoreEntries = () => {
                             className="mt-form-item-spacing"
                             padding="p-1"
                             theme="light"
-                            onClick={() =>
+                            onClick={() => {
+                              const startDateValue = lastExpiry ? lastExpiry : combinedStartDateTime;
+                              const expiresValue = startDateValue
+                                ? dayjs(startDateValue).add(1, "day").endOf("day")
+                                : null; // Set to null if no valid start date
+
                               add({
-                                type: "BOOST",
+                                type: true,
                                 productType: "PHYSICAL", // Changed type
-                                startDate: secondLastExpiry,
-                                expires: dayjs(lastExpiry).add(1, "day").endOf("day"),
-                              })
-                            }
+                                startDate: startDateValue,
+                                expires: expiresValue,
+                              });
+                            }}
                             icon={<PlusIcon />}
                           >
                             Add another boosted period

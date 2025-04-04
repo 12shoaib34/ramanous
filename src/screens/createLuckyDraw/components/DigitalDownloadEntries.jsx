@@ -27,13 +27,30 @@ const DigitalDownloadEntries = () => {
                   type: false,
                 },
               ];
+
               const startDateTime = getFieldValue("startDateTime");
               const startTime = getFieldValue("startTime");
+              const combinedStartDateTime =
+                startDateTime && startTime
+                  ? dayjs(startDateTime)
+                      .hour(dayjs(startTime).hour())
+                      .minute(dayjs(startTime).minute())
+                      .second(dayjs(startTime).second())
+                  : null;
+
+              const endDateTime = getFieldValue("endDateTime");
+              const endTime = getFieldValue("endTime");
+              const combinedEndDateTime =
+                endDateTime && endTime
+                  ? dayjs(endDateTime)
+                      .hour(dayjs(endTime).hour())
+                      .minute(dayjs(endTime).minute())
+                      .second(dayjs(endTime).second())
+                  : null;
+
               const secondLastExpiry = digitalDownloadEntries[digitalDownloadEntries.length - 2]?.expires;
               const lastExpiry = digitalDownloadEntries[digitalDownloadEntries.length - 1]?.expires;
               const isBoosted = digitalDownloadEntries.some((entry) => entry.type === true);
-
-              console.log(lastExpiry, "digitalDownloadEntries");
 
               return (
                 <Form.List
@@ -120,11 +137,15 @@ const DigitalDownloadEntries = () => {
                                     <AntDatePicker
                                       placeholder="Select date"
                                       disabled={(!secondLastExpiry && index > 1) || fields?.length - 1 > index}
-                                      disabledDate={(current) =>
-                                        secondLastExpiry
+                                      disabledDate={(current) => {
+                                        const isBeforeStartDate = secondLastExpiry
                                           ? current <= secondLastExpiry
-                                          : current <= startDateTime || dayjs(current).isBefore(startTime, "day")
-                                      }
+                                          : current <= startDateTime || dayjs(current).isBefore(startTime, "day");
+                                        const isAfterEndDate = combinedEndDateTime
+                                          ? current > combinedEndDateTime
+                                          : false;
+                                        return isBeforeStartDate || isAfterEndDate;
+                                      }}
                                       format="DD MMM, YY"
                                     />
                                   </Form.Item>
@@ -146,14 +167,19 @@ const DigitalDownloadEntries = () => {
                             className="mt-form-item-spacing"
                             padding="p-1"
                             theme="light"
-                            onClick={() =>
+                            onClick={() => {
+                              const startDateValue = lastExpiry ? lastExpiry : combinedStartDateTime;
+                              const expiresValue = startDateValue
+                                ? dayjs(startDateValue).add(1, "day").endOf("day")
+                                : null; // Set to null if no valid start date
+
                               add({
                                 type: true,
                                 productType: "DIGITAL",
-                                startDate: lastExpiry,
-                                expires: dayjs(lastExpiry).add(1, "day").endOf("day"),
-                              })
-                            }
+                                startDate: startDateValue,
+                                expires: expiresValue,
+                              });
+                            }}
                             icon={<PlusIcon />}
                           >
                             Add another boosted period
