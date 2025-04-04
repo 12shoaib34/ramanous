@@ -74,7 +74,7 @@ const CreateLuckyDraw = (props) => {
       timeZone: values.timeZone,
       metaTitle: values.metaTitle,
       metaDescription: values.metaDescription,
-      drawType: values.drawTypes, // Assuming the first selected type is needed
+      drawType: values.drawTypes,
       winnersCount: values.winnersCount,
       message: values.message,
       reward: values.reward,
@@ -87,26 +87,23 @@ const CreateLuckyDraw = (props) => {
       entrantsCap: values.isUnlimited ? null : values.entrantsCap,
     };
 
-    // Remove undefined properties from payload
     Object.keys(payload).forEach((key) => {
       if (payload[key] === undefined) {
         delete payload[key];
       }
     });
 
-    console.log("Formatted Payload:", payload);
-    dispatch(createLuckyDraw(payload))
-      .unwrap() // Use unwrap to handle promise resolution/rejection directly
-      .then((result) => {
-        notification.success({ message: "Lucky draw created successfully!" });
-        navigate(`/list-lucky-draw`);
-      })
-      .catch((err) => {
-        console.error("Failed to create lucky draw:", err);
-        notification.error({ message: `Failed to create lucky draw: ${err?.message || "Unknown error"}` });
-        // Keep state to show error message, or reset if preferred
-        // dispatch(resetCreateLuckyDrawState()); // Reset state after error
-      });
+    console.log("Formatted Payload:", values);
+    // dispatch(createLuckyDraw(payload))
+    //   .unwrap()
+    //   .then((result) => {
+    //     notification.success({ message: "Lucky draw created successfully!" });
+    //     navigate(`/list-lucky-draw`);
+    //   })
+    //   .catch((err) => {
+    //     console.error("Failed to create lucky draw:", err);
+    //     notification.error({ message: `Failed to create lucky draw: ${err?.message || "Unknown error"}` });
+    //   });
   };
 
   return (
@@ -117,13 +114,13 @@ const CreateLuckyDraw = (props) => {
           <div>
             <FormHeader loading={luckyDraws?.createLuckyDrawLoading} />
             <div className="flex flex-col gap-form-item-spacing">
-              <DrawInitialDetails form={form} />
-              <SeoDetails form={form} />
-              <DrawAreaDetails form={form} />
-              <DrawWinners form={form} />
+              {/* <DrawInitialDetails form={form} /> */}
+              {/* <SeoDetails form={form} /> */}
+              {/* <DrawAreaDetails form={form} /> */}
+              {/* <DrawWinners form={form} /> */}
               <DigitalDownloadEntries form={form} />
               <PhysicalStoreEntries form={form} />
-              <NonQualifyingOrdersMessage form={form} />
+              {/* <NonQualifyingOrdersMessage form={form} /> */}
               {/* <FormSectionWithTitle title="Digital download products (5)">
                 <FormContainer>
                   <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />

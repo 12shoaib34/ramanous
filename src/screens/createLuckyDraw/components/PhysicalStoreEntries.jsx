@@ -1,101 +1,151 @@
-import { Checkbox, Form, InputNumber } from "antd";
-import React from "react";
-import { AntDatePicker, Button, FormContainer, FormSectionWithTitle } from "../../../components";
+import React, { useState } from "react";
+import { Form, InputNumber, Checkbox, DatePicker, Space } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { FormContainer, FormSectionWithTitle, Button, AntDatePicker } from "../../../components";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import PlusIcon from "../../../icons/PlusIcon";
+import dayjs from "dayjs";
 
 const PhysicalStoreEntries = () => {
-  const isProductSelected = true;
+  const isProductSelected = true; // Assuming products are selected for now, adjust as needed
 
   return (
-    <FormSectionWithTitle
-      title="Entries - physical store products"
-      subtitle="Leave blank if you don’t want physical products for this draw"
-      extra={<Button type="primary">Set cart image</Button>}
-    >
+    <FormSectionWithTitle title="Entries - physical store products">
       <FormContainer>
-        {!isProductSelected && <Button type="primary">Select products</Button>}
+        {!isProductSelected && (
+          <Button htmlType="button" type="primary">
+            Select products
+          </Button>
+        )}
 
         {isProductSelected && (
-          <>
-            <Form.List name="physical_store_entries">
-              {(fields, { add, remove }) => (
-                <>
-                  <div className="flex gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
-                    <div className="flex gap-4 items-center">
-                      <span className="label-role">Award</span>
-                      <Form.Item noStyle name={["award"]}>
-                        <InputNumber min={1} defaultValue={1} />
-                      </Form.Item>
-                      <span className="label-role">entry for every</span>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                      <Form.Item noStyle name={["spent"]}>
-                        <InputNumber min={1} defaultValue={1} prefix="$" />
-                      </Form.Item>
-                      <span className="label-role">spent in store</span>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                      <Form.Item noStyle name={["boost"]} valuePropName="checked">
-                        <Checkbox />
-                      </Form.Item>
-                      <span className="label-role">Boost?</span>
-                    </div>
-                  </div>
+          <Form.Item shouldUpdate noStyle>
+            {({ getFieldValue }) => {
+              const physicalStoreEntries = getFieldValue("physicalStoreEntries") || [
+                {
+                  productType: "PHYSICAL", // Changed type
+                  type: false,
+                },
+              ];
+              const startDateTime = getFieldValue("startDateTime");
+              const startTime = getFieldValue("startTime");
+              const secondLastExpiry = physicalStoreEntries[physicalStoreEntries.length - 2]?.expires;
+              const lastExpiry = physicalStoreEntries[physicalStoreEntries.length - 1]?.expires;
+              const isBoosted = physicalStoreEntries.some((entry) => entry.type === true);
 
-                  {fields.map(({ key, name, ...restField }) => (
-                    <div
-                      className="flex gap-6 items-center border-b last:border-none border-gray-300 bg-[#EBEBEB] py-3 pl-4 pr-3"
-                      key={key}
-                    >
-                      <div className="flex gap-4 items-center">
-                        <span className="label-role">Award</span>
-                        <Form.Item noStyle {...restField} name={[name, "award"]}>
-                          <InputNumber min={1} defaultValue={1} />
-                        </Form.Item>
-                      </div>
-                      <div className="flex gap-4 items-center">
-                        <span className="label-role">entry /</span>
-                        <Form.Item noStyle {...restField} name={[name, "spent"]}>
-                          <InputNumber min={1} defaultValue={1} prefix="$" />
-                        </Form.Item>
-                      </div>
-                      <div className="flex gap-4 items-center">
-                        <span className="label-role">expires</span>
-                        <Form.Item noStyle {...restField} name={[name, "week"]}>
-                          <AntDatePicker />
-                        </Form.Item>
-                      </div>
-                      <Button
-                        onClick={() => remove(name)}
-                        shape="circle"
-                        size="fit"
-                        theme="light"
-                        icon={<DeleteIcon />}
-                      />
-                    </div>
-                  ))}
+              console.log(physicalStoreEntries, "physicalStoreEntries"); // Updated log
 
-                  <Button
-                    className="mt-form-item-spacing"
-                    padding="p-1"
-                    theme="light"
-                    onClick={() => add()}
-                    icon={<PlusIcon />}
-                  >
-                    Add another boosted period
-                  </Button>
-                </>
-              )}
-            </Form.List>
-            <div className="mt-4 bg-[#EBEBEB] p-3 text-center text-gray-700 font-medium">
-              You have <span className="font-bold">5</span> physical store products attached to this draw
-            </div>
-          </>
+              return (
+                <Form.List
+                  initialValue={[
+                    {
+                      productType: "PHYSICAL", // Changed type
+                      type: false,
+                    },
+                  ]}
+                  name="physicalStoreEntries" // Changed name
+                >
+                  {(fields, { add, remove }) => {
+                    return (
+                      <div>
+                        {fields.map(({ key, name, ...restField }, index) => (
+                          <>
+                            {index === 0 ? (
+                              <>
+                                <div className="flex flex-wrap gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
+                                  <div className="flex gap-4 items-center">
+                                    <span className="label-role">Awards</span>
+                                    <Form.Item noStyle name={[name, "award"]}>
+                                      <InputNumber placeholder="Awards" min={1} />
+                                    </Form.Item>
+                                    <span className="label-role">entry for every</span>
+                                  </div>
+                                  <div className="flex gap-4 items-center">
+                                    <Form.Item noStyle name={[name, "dollarSpent"]}>
+                                      <InputNumber min={1} prefix="$" />
+                                    </Form.Item>
+                                    <span className="label-role">spent</span>
+                                  </div>
+                                  <div className="flex gap-4 items-center">
+                                    <Form.Item noStyle name={[name, "type"]} valuePropName="checked">
+                                      <Checkbox disabled={fields.length > 1} />
+                                    </Form.Item>
+                                    <span className="label-role">Boost?</span>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <div
+                                className="flex gap-6 items-center border-b last:border-none border-gray-300 bg-[#EBEBEB] py-3 pl-4 pr-3"
+                                key={key}
+                              >
+                                <div className="flex gap-4 items-center">
+                                  <span className="label-role">Award</span>
+                                  <Form.Item noStyle {...restField} name={[name, "award"]}>
+                                    <InputNumber min={1} />
+                                  </Form.Item>
+                                </div>
+                                <div className="flex gap-4 items-center">
+                                  <span className="label-role">entry /</span>
+                                  <Form.Item noStyle {...restField} name={[name, "spent"]}>
+                                    <InputNumber min={1} prefix="$" />
+                                  </Form.Item>
+                                </div>
+                                <div className="flex gap-4 items-center">
+                                  <span className="label-role">expires:</span>
+                                  <Form.Item noStyle {...restField} name={[name, "expires"]}>
+                                    <AntDatePicker
+                                      disabled={(!secondLastExpiry && index > 1) || fields?.length - 1 > index}
+                                      disabledDate={(current) =>
+                                        secondLastExpiry
+                                          ? current <= secondLastExpiry
+                                          : current <= startDateTime || dayjs(current).isBefore(startTime, "day")
+                                      }
+                                      format="DD MMM, YY"
+                                    />
+                                  </Form.Item>
+                                </div>
+                                <Button
+                                  onClick={() => remove(name)}
+                                  shape="circle"
+                                  size="fit"
+                                  theme="light"
+                                  icon={<DeleteIcon />}
+                                />
+                              </div>
+                            )}
+                          </>
+                        ))}
+
+                        {isBoosted && (
+                          <Button
+                            className="mt-form-item-spacing"
+                            padding="p-1"
+                            theme="light"
+                            onClick={() =>
+                              add({
+                                type: "BOOST",
+                                productType: "PHYSICAL", // Changed type
+                                startDate: lastExpiry,
+                                expires: dayjs(lastExpiry).add(1, "day").endOf("day"),
+                              })
+                            }
+                            icon={<PlusIcon />}
+                          >
+                            Add another boosted period
+                          </Button>
+                        )}
+                      </div>
+                    );
+                  }}
+                </Form.List>
+              );
+            }}
+          </Form.Item>
         )}
       </FormContainer>
     </FormSectionWithTitle>
   );
 };
 
-export default PhysicalStoreEntries;
+export default PhysicalStoreEntries; // Changed export

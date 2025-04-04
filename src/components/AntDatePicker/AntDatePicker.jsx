@@ -3,9 +3,9 @@ import React from "react";
 import CalenderIcon from "../../icons/CalenderIcon";
 
 const AntDatePicker = (props) => {
-  const { ...rest } = props;
+  const { format = "DD MMM, YYYY", ...rest } = props;
 
-  return <DatePicker suffixIcon={null} prefix={<CalenderIcon />} className="w-full" {...rest} />;
+  return <DatePicker format={format} suffixIcon={null} prefix={<CalenderIcon />} className="w-full" {...rest} />;
 };
 
 export default AntDatePicker;

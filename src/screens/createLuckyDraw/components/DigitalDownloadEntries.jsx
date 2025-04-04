@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, InputNumber, Checkbox, DatePicker, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { FormContainer, FormSectionWithTitle, Button } from "../../../components";
+import { FormContainer, FormSectionWithTitle, Button, AntDatePicker } from "../../../components";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import PlusIcon from "../../../icons/PlusIcon";
+import dayjs from "dayjs";
 
 const DigitalDownloadEntries = () => {
   const isProductSelected = true;
@@ -18,78 +19,129 @@ const DigitalDownloadEntries = () => {
         )}
 
         {isProductSelected && (
-          <Form.List name="digital_download_entries">
-            {(fields, { add, remove }) => {
+          <Form.Item shouldUpdate noStyle>
+            {({ getFieldValue }) => {
+              const digitalDownloadEntries = getFieldValue("digitalDownloadEntries") || [
+                {
+                  productType: "DIGITAL",
+                  type: false,
+                },
+              ];
+              const startDateTime = getFieldValue("startDateTime");
+              const startTime = getFieldValue("startTime");
+              const secondLastExpiry = digitalDownloadEntries[digitalDownloadEntries.length - 2]?.expires;
+              const lastExpiry = digitalDownloadEntries[digitalDownloadEntries.length - 1]?.expires;
+              const isBoosted = digitalDownloadEntries.some((entry) => entry.type === true);
+
+              console.log(digitalDownloadEntries, "digitalDownloadEntries");
+
               return (
-                <>
-                  <div className="flex flex-wrap gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
-                    <div className="flex gap-4 items-center">
-                      <span className="label-role">Awards</span>
-                      <Form.Item noStyle name={["award"]}>
-                        <InputNumber min={1} defaultValue={100} />
-                      </Form.Item>
-                      <span className="label-role">entry for every</span>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                      <Form.Item noStyle name={["dollarSpent"]}>
-                        <InputNumber min={1} defaultValue={50} prefix="$" />
-                      </Form.Item>
-                      <span className="label-role">spent</span>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                      <Form.Item noStyle name={["type"]} valuePropName="checked">
-                        <Checkbox />
-                      </Form.Item>
-                      <span className="label-role">Boost?</span>
-                    </div>
-                  </div>
+                <Form.List
+                  initialValue={[
+                    {
+                      productType: "DIGITAL",
+                      type: false,
+                    },
+                  ]}
+                  name="digitalDownloadEntries"
+                >
+                  {(fields, { add, remove }) => {
+                    return (
+                      <div>
+                        {fields.map(({ key, name, ...restField }, index) => (
+                          <>
+                            {index === 0 ? (
+                              <>
+                                <div className="flex flex-wrap gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
+                                  <div className="flex gap-4 items-center">
+                                    <span className="label-role">Awards</span>
+                                    <Form.Item noStyle name={[name, "award"]}>
+                                      <InputNumber placeholder="Awards" min={1} />
+                                    </Form.Item>
+                                    <span className="label-role">entry for every</span>
+                                  </div>
+                                  <div className="flex gap-4 items-center">
+                                    <Form.Item noStyle name={[name, "dollarSpent"]}>
+                                      <InputNumber min={1} prefix="$" />
+                                    </Form.Item>
+                                    <span className="label-role">spent</span>
+                                  </div>
+                                  <div className="flex gap-4 items-center">
+                                    <Form.Item noStyle name={[name, "type"]} valuePropName="checked">
+                                      <Checkbox disabled={fields.length > 1} />
+                                    </Form.Item>
+                                    <span className="label-role">Boost?</span>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <div
+                                className="flex gap-6 items-center border-b last:border-none border-gray-300 bg-[#EBEBEB] py-3 pl-4 pr-3"
+                                key={key}
+                              >
+                                <div className="flex gap-4 items-center">
+                                  <span className="label-role">Award</span>
+                                  <Form.Item noStyle {...restField} name={[name, "award"]}>
+                                    <InputNumber min={1} />
+                                  </Form.Item>
+                                </div>
+                                <div className="flex gap-4 items-center">
+                                  <span className="label-role">entry /</span>
+                                  <Form.Item noStyle {...restField} name={[name, "spent"]}>
+                                    <InputNumber min={1} prefix="$" />
+                                  </Form.Item>
+                                </div>
+                                <div className="flex gap-4 items-center">
+                                  <span className="label-role">expires:</span>
+                                  <Form.Item noStyle {...restField} name={[name, "expires"]}>
+                                    <AntDatePicker
+                                      disabled={(!secondLastExpiry && index > 1) || fields?.length - 1 > index}
+                                      disabledDate={(current) =>
+                                        secondLastExpiry
+                                          ? current <= secondLastExpiry
+                                          : current <= startDateTime || dayjs(current).isBefore(startTime, "day")
+                                      }
+                                      format="DD MMM, YY"
+                                    />
+                                  </Form.Item>
+                                </div>
+                                <Button
+                                  onClick={() => remove(name)}
+                                  shape="circle"
+                                  size="fit"
+                                  theme="light"
+                                  icon={<DeleteIcon />}
+                                />
+                              </div>
+                            )}
+                          </>
+                        ))}
 
-                  {fields.map(({ key, name, ...restField }) => (
-                    <div
-                      className="flex gap-6 items-center border-b last:border-none border-gray-300 bg-[#EBEBEB] py-3 pl-4 pr-3"
-                      key={key}
-                    >
-                      <div className="flex gap-4 items-center">
-                        <span className="label-role">Award</span>
-                        <Form.Item noStyle {...restField} name={[name, "award"]}>
-                          <InputNumber min={1} defaultValue={200} />
-                        </Form.Item>
+                        {isBoosted && (
+                          <Button
+                            className="mt-form-item-spacing"
+                            padding="p-1"
+                            theme="light"
+                            onClick={() =>
+                              add({
+                                type: "BOOST",
+                                productType: "DIGITAL",
+                                startDate: lastExpiry,
+                                expires: dayjs(lastExpiry).add(1, "day").endOf("day"),
+                              })
+                            }
+                            icon={<PlusIcon />}
+                          >
+                            Add another boosted period
+                          </Button>
+                        )}
                       </div>
-                      <div className="flex gap-4 items-center">
-                        <span className="label-role">entry /</span>
-                        <Form.Item noStyle {...restField} name={[name, "spent"]}>
-                          <InputNumber min={1} defaultValue={50} prefix="$" />
-                        </Form.Item>
-                      </div>
-                      <div className="flex gap-4 items-center">
-                        <span className="label-role">expires:</span>
-                        <Form.Item noStyle {...restField} name={[name, "expires"]}>
-                          <DatePicker format="DD MMM, YY" />
-                        </Form.Item>
-                      </div>
-                      <Button
-                        onClick={() => remove(name)}
-                        shape="circle"
-                        size="fit"
-                        theme="light"
-                        icon={<DeleteIcon />}
-                      />
-                    </div>
-                  ))}
-
-                  <Button
-                    className="mt-form-item-spacing"
-                    padding="p-1"
-                    theme="light"
-                    onClick={() => add()}
-                    icon={<PlusIcon />}
-                  >
-                    Add another boosted period
-                  </Button>
-                </>
+                    );
+                  }}
+                </Form.List>
               );
             }}
-          </Form.List>
+          </Form.Item>
         )}
       </FormContainer>
     </FormSectionWithTitle>
