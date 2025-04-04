@@ -4,20 +4,34 @@ import React from "react";
 import { AntDatePicker, Button, FormContainer, FormSectionWithTitle } from "../../../components";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import PlusIcon from "../../../icons/PlusIcon";
+import PencilIcon from "../../../icons/PencilIcon";
 
-const PhysicalStoreEntries = () => {
-  const isProductSelected = true; // Assuming products are selected for now, adjust as needed
+// Accept selectedProducts prop
+// Accept onClearSelection prop
+const PhysicalStoreEntries = ({ openProductModal, productsSelected, selectedProducts = [], onClearSelection }) => {
+  // Accept openProductModal and productsSelected props
+  // Remove local isProductSelected
+
+  // Get image URL from the first selected product, assuming 'imageUrl' property
+  const firstProductImageUrl = selectedProducts?.[0]?.imageUrl;
 
   return (
-    <FormSectionWithTitle title="Entries - physical store products">
+    <FormSectionWithTitle
+      title="Entries - physical store products"
+      // Conditionally render the image suffix
+      titleSuffix={
+        firstProductImageUrl ? (
+          <img src={firstProductImageUrl} alt="Selected Product" className="w-10 h-10 object-contain" />
+        ) : null
+      }
+    >
       <FormContainer>
-        {!isProductSelected && (
-          <Button htmlType="button" type="primary">
-            Select products
-          </Button>
-        )}
+        {/* Add onClick handler and htmlType */}
+        {/* Use productsSelected prop for conditional rendering */}
+        {!productsSelected && <Button onClick={() => openProductModal("PHYSICAL")}>Select products</Button>}
 
-        {isProductSelected && (
+        {/* Use productsSelected prop for conditional rendering */}
+        {productsSelected && (
           <Form.Item shouldUpdate noStyle>
             {({ getFieldValue }) => {
               const physicalStoreEntries = getFieldValue("physicalStoreEntries") || [
@@ -46,8 +60,9 @@ const PhysicalStoreEntries = () => {
                       .second(dayjs(endTime).second())
                   : null;
 
-              const secondLastExpiry = physicalStoreEntries[physicalStoreEntries.length - 2]?.expires;
-              const lastExpiry = physicalStoreEntries[physicalStoreEntries.length - 1]?.expires;
+              // Read endTime instead of expires
+              const secondLastEndTime = physicalStoreEntries[physicalStoreEntries.length - 2]?.endTime;
+              const lastEndTime = physicalStoreEntries[physicalStoreEntries.length - 1]?.endTime;
               const isBoosted = physicalStoreEntries.some((entry) => entry.type === true);
 
               return (
@@ -56,8 +71,9 @@ const PhysicalStoreEntries = () => {
                     {
                       type: false,
                       productType: "PHYSICAL",
-                      startDate: combinedStartDateTime,
-                      expires: combinedEndDateTime,
+                      // Use startTime and endTime in initialValue
+                      startTime: combinedStartDateTime,
+                      endTime: combinedEndDateTime,
                     },
                   ]}
                   name="physicalStoreEntries"
@@ -120,26 +136,27 @@ const PhysicalStoreEntries = () => {
                                   <Form.Item
                                     noStyle
                                     {...restField}
-                                    name={[name, "spent"]}
+                                    name={[name, "dollarSpent"]}
                                     rules={[{ required: true, message: "Required" }]}
                                   >
                                     <InputNumber placeholder="Amount" min={1} prefix="$" />
                                   </Form.Item>
                                 </div>
                                 <div className="flex gap-4 items-center">
-                                  <span className="label-role">expires:</span>
+                                  <span className="label-role">End Time:</span>
                                   <Form.Item
                                     noStyle
                                     {...restField}
-                                    name={[name, "expires"]}
+                                    name={[name, "endTime"]} // Change name to endTime
                                     rules={[{ required: true, message: "Required" }]}
                                   >
                                     <AntDatePicker
                                       placeholder="Select date"
-                                      disabled={(!secondLastExpiry && index > 1) || fields?.length - 1 > index}
+                                      // Update disabled logic to use secondLastEndTime
+                                      disabled={(!secondLastEndTime && index > 1) || fields?.length - 1 > index}
                                       disabledDate={(current) => {
-                                        const isBeforeStartDate = secondLastExpiry
-                                          ? current <= secondLastExpiry
+                                        const isBeforeStartDate = secondLastEndTime
+                                          ? current <= secondLastEndTime // Use secondLastEndTime
                                           : current <= startDateTime || dayjs(current).isBefore(startTime, "day");
                                         const isAfterEndDate = combinedEndDateTime
                                           ? current > combinedEndDateTime
@@ -168,16 +185,17 @@ const PhysicalStoreEntries = () => {
                             padding="p-1"
                             theme="light"
                             onClick={() => {
-                              const startDateValue = lastExpiry ? lastExpiry : combinedStartDateTime;
-                              const expiresValue = startDateValue
-                                ? dayjs(startDateValue).add(1, "day").endOf("day")
-                                : null; // Set to null if no valid start date
+                              // Use lastEndTime and combinedStartDateTime for startTimeValue
+                              const startTimeValue = lastEndTime ? lastEndTime : combinedStartDateTime;
+                              const endTimeValue = startTimeValue
+                                ? dayjs(startTimeValue).add(1, "day").endOf("day")
+                                : null; // Set to null if no valid start time
 
                               add({
                                 type: true,
                                 productType: "PHYSICAL", // Changed type
-                                startDate: startDateValue,
-                                expires: expiresValue,
+                                startTime: startTimeValue, // Use startTime key
+                                endTime: endTimeValue, // Use endTime key
                               });
                             }}
                             icon={<PlusIcon />}
@@ -192,6 +210,32 @@ const PhysicalStoreEntries = () => {
               );
             }}
           </Form.Item>
+        )}
+        {/* Add Footer Summary Section */}
+        {productsSelected && (
+          <div className="flex justify-between items-center p-3 bg-gray-100 border-t border-gray-200 mt-4">
+            <span className="text-sm text-gray-600">
+              You have <strong>{selectedProducts.length}</strong> physical store products attached to this draw
+            </span>
+            <div className="flex">
+              {/* Placeholder for Edit Icon Button */}
+              <Button
+                size="small"
+                theme="light"
+                shape="circle"
+                icon={<PencilIcon />}
+                onClick={() => openProductModal("PHYSICAL")}
+              />
+              {/* Placeholder for Delete Icon Button */}
+              <Button
+                size="small"
+                theme="light"
+                shape="circle"
+                icon={<DeleteIcon />}
+                onClick={onClearSelection} // Use the passed handler
+              />
+            </div>
+          </div>
         )}
       </FormContainer>
     </FormSectionWithTitle>

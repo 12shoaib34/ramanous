@@ -8,45 +8,55 @@ import { getProducts } from "../../common/thunk";
 // You might need to adjust the selector based on src/common/slice.js
 const selectProductsData = (state) => state.common.products;
 
-const SelectProduct = ({ open, onClose, onSelect }) => {
+// Accept initialSelectedIds prop, default to empty array
+const SelectProduct = ({ open, onClose, onSelect, initialSelectedIds = [] }) => {
   const dispatch = useDispatch();
   const { data: products, loading, error } = useSelector(selectProductsData);
-  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedProductIds, setSelectedProductIds] = useState([]); // State to hold multiple IDs
 
   useEffect(() => {
     // Fetch products when the modal is opened and data isn't already loaded
     if (open && !products?.length) {
       dispatch(getProducts()); // Corrected dispatch call
     }
-  }, [open, dispatch, products]);
+    // Effect to initialize selection when modal opens
+    if (open) {
+      setSelectedProductIds(initialSelectedIds);
+    }
+    // We don't reset here on close (open=false) because handleClose already does.
+    // Adding initialSelectedIds to dependency array ensures state updates if the prop changes while modal is open (unlikely but safe).
+  }, [open, dispatch, products, initialSelectedIds, setSelectedProductIds]);
 
   const handleSelect = () => {
-    const selectedProduct = products.find((p) => p.productId === selectedProductId);
-    if (selectedProduct) {
-      onSelect(selectedProduct); // Pass the whole selected product object
-      handleClose();
+    // Find all products whose IDs are in the selectedProductIds array
+    const selectedProducts = products.filter((p) => selectedProductIds.includes(p.productId));
+    if (selectedProducts.length > 0) {
+      onSelect(selectedProducts); // Pass the array of selected product objects
+      handleClose(); // Close after selection
     }
   };
 
   const handleClose = () => {
-    setSelectedProductId(null); // Reset selection on close
+    setSelectedProductIds([]); // Reset selection array on close
     onClose();
   };
 
-  // Memoized click handler for list items
+  // Memoized click handler for list items for multiple selection
   const handleItemClick = useCallback(
     (productId) => {
-      setSelectedProductId((prevSelectedId) => {
-        // If the clicked item is already selected, unselect it (set to null)
-        if (prevSelectedId === productId) {
-          return null;
+      setSelectedProductIds((prevSelectedIds) => {
+        // Check if the ID is already selected
+        if (prevSelectedIds.includes(productId)) {
+          // If yes, remove it (filter it out)
+          return prevSelectedIds.filter((id) => id !== productId);
+        } else {
+          // If no, add it to the array
+          return [...prevSelectedIds, productId];
         }
-        // Otherwise, select the clicked item
-        return productId;
       });
     },
-    [setSelectedProductId]
-  ); // Dependency: only recreate if setSelectedProductId changes (which it shouldn't)
+    [setSelectedProductIds] // Dependency: only recreate if setSelectedProductIds changes
+  );
 
   return (
     <Modal
@@ -57,8 +67,14 @@ const SelectProduct = ({ open, onClose, onSelect }) => {
         <Button key="back" theme="light" onClick={handleClose}>
           Cancel
         </Button>,
-        <Button key="submit" loading={loading} onClick={handleSelect} disabled={!selectedProductId}>
-          Select
+        <Button
+          key="submit"
+          loading={loading}
+          onClick={handleSelect}
+          disabled={selectedProductIds.length === 0} // Disable button if no products are selected
+        >
+          {/* Conditionally render button text */}
+          {selectedProductIds.length > 0 ? `${selectedProductIds.length} Selected` : "Select"}
         </Button>,
       ]}
       width={600} // Adjust width as needed
@@ -85,8 +101,9 @@ const SelectProduct = ({ open, onClose, onSelect }) => {
             <div
               key={item.productId}
               onClick={() => handleItemClick(item.productId)} // Use the memoized handler
+              // Update className to check if ID is included in the array
               className={`flex justify-between items-center p-3 cursor-pointer border-b last:border-b-0 hover:bg-green-50/50 ${
-                selectedProductId === item.productId ? "bg-green-50/50 border-green-200" : "border-gray-100"
+                selectedProductIds.includes(item.productId) ? "bg-green-50/50 border-green-200" : "border-gray-100"
               }`}
             >
               <div>
@@ -97,7 +114,8 @@ const SelectProduct = ({ open, onClose, onSelect }) => {
                   Type: {item.productType} - Price: ${item.price}
                 </div>
               </div>
-              {selectedProductId === item.productId && (
+              {/* Show checkmark if ID is included in the array */}
+              {selectedProductIds.includes(item.productId) && (
                 /* Green Checkmark SVG */
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

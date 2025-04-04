@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, Select, Space } from "antd";
+import { Checkbox, Form, Input, Radio, Select, Space } from "antd";
 import React, { useEffect } from "react";
 import { FormContainer, FormSection, Button, CustomLabel } from "../../../components";
 import DeleteIcon from "../../../icons/DeleteIcon";
@@ -38,13 +38,13 @@ const DrawAreaDetails = ({ form }) => {
           label={<CustomLabel label="This draw is open to which users?" info="Select one or multiple" />}
           name="drawTypes"
         >
-          <Checkbox.Group>
+          <Radio.Group>
             <Space direction="vertical">
-              <Checkbox value={"PAID_AND_BUYER"}>Paid subscribers + Package buyers</Checkbox>
-              <Checkbox value={"PAID"}>Paid subscribers ONLY</Checkbox>
-              <Checkbox value={"BUYER"}>Package buyers ONLY</Checkbox>
+              <Radio value={"PAID_AND_BUYER"}>Paid subscribers + Package buyers</Radio>
+              <Radio value={"PAID"}>Paid subscribers ONLY</Radio>
+              <Radio value={"BUYER"}>Package buyers ONLY</Radio>
             </Space>
-          </Checkbox.Group>
+          </Radio.Group>
         </Form.Item>
       </FormContainer>
 

@@ -1,8 +1,8 @@
 import { Form, notification } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react"; // Import useState
 import { useDispatch, useSelector } from "react-redux";
 import { getCountries, getProducts } from "../../common/thunk";
-import { Button, FormContainer, FormSectionWithTitle, Header, ProductRow } from "../../components";
+import { Button, FormContainer, FormSectionWithTitle, Header, ProductRow, SelectProduct } from "../../components";
 import { normalizeString } from "../../utils/helper";
 import DigitalDownloadEntries from "./components/DigitalDownloadEntries";
 import DrawAreaDetails from "./components/DrawAreaDetails";
@@ -30,6 +30,42 @@ const CreateLuckyDraw = (props) => {
   const products = useSelector((state) => state?.common?.products);
   const countriesData = useSelector((state) => state?.common?.countries);
   const luckyDraws = useSelector((state) => state?.luckyDraws);
+
+  // State for product selection modal
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [productSelectionType, setProductSelectionType] = useState(null); // "DIGITAL" or "PHYSICAL"
+  const [selectedDigitalProducts, setSelectedDigitalProducts] = useState([]);
+  const [selectedPhysicalProducts, setSelectedPhysicalProducts] = useState([]);
+
+  // Handlers for product selection modal
+  const openProductModal = (type) => {
+    setProductSelectionType(type);
+    setIsProductModalOpen(true);
+  };
+
+  const closeProductModal = () => {
+    setIsProductModalOpen(false);
+    setProductSelectionType(null); // Reset type on close
+  };
+
+  const handleProductSelect = (selectedProducts) => {
+    if (productSelectionType === "DIGITAL") {
+      setSelectedDigitalProducts(selectedProducts);
+    } else if (productSelectionType === "PHYSICAL") {
+      setSelectedPhysicalProducts(selectedProducts);
+    }
+    // Note: We might want to display these selected products in the UI later
+    console.log(`Selected ${productSelectionType} products:`, selectedProducts);
+  };
+
+  // Handlers to clear selected products
+  const handleClearDigitalProducts = () => {
+    setSelectedDigitalProducts([]);
+  };
+
+  const handleClearPhysicalProducts = () => {
+    setSelectedPhysicalProducts([]);
+  };
 
   const handlePublish = (values) => {
     console.log("Raw form values:", values);
@@ -79,10 +115,33 @@ const CreateLuckyDraw = (props) => {
         ? dayjs(endDateTime).hour(dayjs(endTime).hour()).minute(dayjs(endTime).minute()).second(dayjs(endTime).second())
         : null;
 
+    // Map entries: ensure first type is "DEFAULT", map boolean type to string, format dates
+    const mapEntry = (entry, index) => ({
+      ...entry,
+      startTime: entry.startTime?.toISOString(), // Format startTime
+      endTime: entry.endTime?.toISOString(), // Format endTime
+      type: index === 0 ? "DEFAULT" : entry.type ? "BOOST" : "DEFAULT", // Map boolean type to string
+    });
+
+    const mappedDigitalEntries = (values?.digitalDownloadEntries || []).map(mapEntry);
+    const mappedPhysicalEntries = (values?.physicalStoreEntries || []).map(mapEntry);
+
+    // Format selected products for the payload
+    const formatProductPayload = (product) => ({
+      productId: product.productId,
+      name: product.name,
+      price: product.price, // Assuming price is already a string or needs conversion
+      productType: product.productType,
+    });
+
+    const productsPayload = [
+      ...selectedDigitalProducts.map(formatProductPayload),
+      ...selectedPhysicalProducts.map(formatProductPayload),
+    ];
+
     const payload = {
       luckyDrawName: values.luckyDrawName,
       publicName: values.publicName,
-
       startDateTime: combinedStartDateTime?.toISOString(),
       endDateTime: combinedEndDateTime?.toISOString(),
       timeZone: values.timeZone,
@@ -93,9 +152,8 @@ const CreateLuckyDraw = (props) => {
       message: values.message,
       reward: values.reward,
       status: "DRAFT",
-
-      luckyDrawSettings: [...(values?.digitalDownloadEntries || []), ...(values?.physicalStoreEntries || [])], // Added null checks
-      products: [],
+      luckyDrawSettings: [...mappedDigitalEntries, ...mappedPhysicalEntries], // Use mapped arrays
+      products: productsPayload, // Use selected products
       countries: formattedCountries,
       isUnlimited: values.isUnlimited || false,
       entrantsCap: values.isUnlimited ? null : values.entrantsCap,
@@ -108,6 +166,8 @@ const CreateLuckyDraw = (props) => {
     });
 
     console.log("Formatted Payload:", payload);
+
+    // return; // Uncomment to prevent actual dispatch during testing
     // dispatch(createLuckyDraw(payload))
     //   .unwrap()
     //   .then((result) => {
@@ -120,8 +180,24 @@ const CreateLuckyDraw = (props) => {
     //   });
   };
 
+  console.log(selectedDigitalProducts, selectedPhysicalProducts);
+
   return (
     <div>
+      {/* Render SelectProduct Modal */}
+      <SelectProduct
+        open={isProductModalOpen}
+        onClose={closeProductModal}
+        onSelect={handleProductSelect}
+        // Pass the IDs of currently selected products for the active type
+        initialSelectedIds={
+          productSelectionType === "DIGITAL"
+            ? selectedDigitalProducts.map((p) => p.productId)
+            : productSelectionType === "PHYSICAL"
+            ? selectedPhysicalProducts.map((p) => p.productId)
+            : [] // Default to empty array if type is somehow null
+        }
+      />
       <Header title="Create New Lucky Draw" />
       <Form requiredMark={false} form={form} layout="vertical" onFinish={handlePublish}>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 px-5 pb-2 pt-2">
@@ -132,33 +208,69 @@ const CreateLuckyDraw = (props) => {
               <SeoDetails form={form} />
               <DrawAreaDetails form={form} />
               <DrawWinners form={form} />
-              <DigitalDownloadEntries form={form} />
-              <PhysicalStoreEntries form={form} />
+              {/* Pass openProductModal handler down */}
+              <DigitalDownloadEntries
+                form={form}
+                openProductModal={openProductModal}
+                productsSelected={selectedDigitalProducts.length > 0} // Pass selection status
+                selectedProducts={selectedDigitalProducts} // Pass the actual selected products
+                onClearSelection={handleClearDigitalProducts} // Pass clear handler
+              />
+              <PhysicalStoreEntries
+                form={form}
+                openProductModal={openProductModal}
+                productsSelected={selectedPhysicalProducts.length > 0} // Pass selection status
+                selectedProducts={selectedPhysicalProducts} // Pass the actual selected products
+                onClearSelection={handleClearPhysicalProducts} // Pass clear handler
+              />
               <NonQualifyingOrdersMessage form={form} />
-              <FormSectionWithTitle title="Digital download products (5)">
+              {/* Dynamically render selected digital products */}
+              <FormSectionWithTitle title={`Digital download products (${selectedDigitalProducts.length})`}>
                 <FormContainer>
-                  <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-                  <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-                  <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-                  <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
-
+                  {selectedDigitalProducts.length === 0 ? (
+                    <p className="text-gray-500 text-sm">No digital products selected.</p>
+                  ) : (
+                    selectedDigitalProducts.map((product) => (
+                      <ProductRow key={product.productId} data={product} /> // Assuming ProductRow takes the product object
+                    ))
+                  )}
                   <div className="flex items-center mt-form-item-spacing">
-                    <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
-                      Add another
+                    {/* Update button to open modal */}
+                    <Button
+                      htmlType="button"
+                      rounded="rounded-sm"
+                      padding="pr-1"
+                      icon={<PlusIcon />}
+                      theme="tertiary-primary"
+                      onClick={() => openProductModal("DIGITAL")}
+                    >
+                      {selectedDigitalProducts.length > 0 ? "Add / Edit Products" : "Select Products"}
                     </Button>
                   </div>
                 </FormContainer>
               </FormSectionWithTitle>
 
-              <FormSectionWithTitle title="Physical store products (5)">
+              {/* Dynamically render selected physical products */}
+              <FormSectionWithTitle title={`Physical store products (${selectedPhysicalProducts.length})`}>
                 <FormContainer>
-                  <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-                  <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-                  <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
-                  <ProductRow imageClassName="rounded-md" data={{ url: "/images/hoodie.png" }} />
+                  {selectedPhysicalProducts.length === 0 ? (
+                    <p className="text-gray-500 text-sm">No physical products selected.</p>
+                  ) : (
+                    selectedPhysicalProducts.map((product) => (
+                      <ProductRow key={product.productId} imageClassName="rounded-md" data={product} /> // Assuming ProductRow takes the product object
+                    ))
+                  )}
                   <div className="flex items-center mt-form-item-spacing">
-                    <Button rounded="rounded-sm" padding="pr-1" icon={<PlusIcon />} theme="tertiary-primary">
-                      Find another
+                    {/* Update button to open modal */}
+                    <Button
+                      htmlType="button"
+                      rounded="rounded-sm"
+                      padding="pr-1"
+                      icon={<PlusIcon />}
+                      theme="tertiary-primary"
+                      onClick={() => openProductModal("PHYSICAL")}
+                    >
+                      {selectedPhysicalProducts.length > 0 ? "Add / Edit Products" : "Select Products"}
                     </Button>
                   </div>
                 </FormContainer>
