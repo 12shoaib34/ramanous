@@ -25,9 +25,9 @@ const DrawInitialDetails = (props) => {
             />
           }
           name="luckyDrawName"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please enter the internal draw name" }]}
         >
-          <Input type="text" />
+          <Input type="text" placeholder="Enter internal draw name" />
         </Form.Item>
         <Form.Item
           className="input-max-w-base"
@@ -42,9 +42,9 @@ const DrawInitialDetails = (props) => {
             />
           }
           name="publicName"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please enter the public draw name" }]}
         >
-          <Input type="text" />
+          <Input type="text" placeholder="Enter public draw name" />
         </Form.Item>
       </FormContainer>
 
@@ -62,7 +62,7 @@ const DrawInitialDetails = (props) => {
             className="col-span-1 mb-0"
             label="Start Time"
             name="startTime"
-            rules={[{ required: true, message: "  " }]}
+            rules={[{ required: true, message: "Please select a start time" }]}
           >
             <AntTimePicker format={"hh:mm"} placeholder="Pick" />
           </Form.Item>
@@ -78,7 +78,7 @@ const DrawInitialDetails = (props) => {
             className="col-span-1 mb-0"
             label="End Time"
             name="endTime"
-            rules={[{ required: true, message: "  " }]}
+            rules={[{ required: true, message: "Please select an end time" }]}
           >
             <AntTimePicker placeholder="Pick" />
           </Form.Item>
@@ -87,7 +87,12 @@ const DrawInitialDetails = (props) => {
 
       <FormContainer>
         <div className="mt-form-item-spacing">
-          <Form.Item className="input-max-w-base" label="Draw Time Zone" name="timeZone" rules={[{ required: true }]}>
+          <Form.Item
+            className="input-max-w-base"
+            label="Draw Time Zone"
+            name="timeZone"
+            rules={[{ required: true, message: "Please select a time zone" }]}
+          >
             <Select
               showSearch // Enable searching
               placeholder="Select a time zone"

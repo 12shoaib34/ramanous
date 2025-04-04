@@ -55,14 +55,22 @@ const DigitalDownloadEntries = () => {
                                 <div className="flex flex-wrap gap-6 items-center bg-transparent -mt-3 py-3 pl-4 pr-3">
                                   <div className="flex gap-4 items-center">
                                     <span className="label-role">Awards</span>
-                                    <Form.Item noStyle name={[name, "award"]}>
+                                    <Form.Item
+                                      noStyle
+                                      name={[name, "award"]}
+                                      rules={[{ required: true, message: "Required" }]}
+                                    >
                                       <InputNumber placeholder="Awards" min={1} />
                                     </Form.Item>
                                     <span className="label-role">entry for every</span>
                                   </div>
                                   <div className="flex gap-4 items-center">
-                                    <Form.Item noStyle name={[name, "dollarSpent"]}>
-                                      <InputNumber min={1} prefix="$" />
+                                    <Form.Item
+                                      noStyle
+                                      name={[name, "dollarSpent"]}
+                                      rules={[{ required: true, message: "Required" }]}
+                                    >
+                                      <InputNumber placeholder="Amount" min={1} prefix="$" />
                                     </Form.Item>
                                     <span className="label-role">spent</span>
                                   </div>
@@ -81,20 +89,36 @@ const DigitalDownloadEntries = () => {
                               >
                                 <div className="flex gap-4 items-center">
                                   <span className="label-role">Award</span>
-                                  <Form.Item noStyle {...restField} name={[name, "award"]}>
-                                    <InputNumber min={1} />
+                                  <Form.Item
+                                    noStyle
+                                    {...restField}
+                                    name={[name, "award"]}
+                                    rules={[{ required: true, message: "Required" }]}
+                                  >
+                                    <InputNumber placeholder="Awards" min={1} />
                                   </Form.Item>
                                 </div>
                                 <div className="flex gap-4 items-center">
                                   <span className="label-role">entry /</span>
-                                  <Form.Item noStyle {...restField} name={[name, "spent"]}>
-                                    <InputNumber min={1} prefix="$" />
+                                  <Form.Item
+                                    noStyle
+                                    {...restField}
+                                    name={[name, "spent"]}
+                                    rules={[{ required: true, message: "Required" }]}
+                                  >
+                                    <InputNumber placeholder="Amount" min={1} prefix="$" />
                                   </Form.Item>
                                 </div>
                                 <div className="flex gap-4 items-center">
                                   <span className="label-role">expires:</span>
-                                  <Form.Item noStyle {...restField} name={[name, "expires"]}>
+                                  <Form.Item
+                                    noStyle
+                                    {...restField}
+                                    name={[name, "expires"]}
+                                    rules={[{ required: true, message: "Required" }]}
+                                  >
                                     <AntDatePicker
+                                      placeholder="Select date"
                                       disabled={(!secondLastExpiry && index > 1) || fields?.length - 1 > index}
                                       disabledDate={(current) =>
                                         secondLastExpiry
