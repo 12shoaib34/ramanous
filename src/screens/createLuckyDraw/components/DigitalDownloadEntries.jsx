@@ -6,12 +6,16 @@ import DeleteIcon from "../../../icons/DeleteIcon";
 import PlusIcon from "../../../icons/PlusIcon";
 
 const DigitalDownloadEntries = () => {
-  const isProductSelected = false;
+  const isProductSelected = true;
 
   return (
     <FormSectionWithTitle title="Entries - digital download products">
       <FormContainer>
-        {!isProductSelected && <Button type="primary">Select products</Button>}
+        {!isProductSelected && (
+          <Button htmlType="button" type="primary">
+            Select products
+          </Button>
+        )}
 
         {isProductSelected && (
           <Form.List name="digital_download_entries">

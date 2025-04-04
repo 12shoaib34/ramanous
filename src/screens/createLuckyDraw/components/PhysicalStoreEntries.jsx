@@ -1,6 +1,6 @@
 import { Checkbox, Form, InputNumber } from "antd";
 import React from "react";
-import { Button, FormContainer, FormSectionWithTitle } from "../../../components";
+import { AntDatePicker, Button, FormContainer, FormSectionWithTitle } from "../../../components";
 import DeleteIcon from "../../../icons/DeleteIcon";
 import PlusIcon from "../../../icons/PlusIcon";
 
@@ -61,9 +61,9 @@ const PhysicalStoreEntries = () => {
                         </Form.Item>
                       </div>
                       <div className="flex gap-4 items-center">
-                        <span className="label-role">spent in store, for week</span>
+                        <span className="label-role">expires</span>
                         <Form.Item noStyle {...restField} name={[name, "week"]}>
-                          <InputNumber min={1} defaultValue={1} />
+                          <AntDatePicker />
                         </Form.Item>
                       </div>
                       <Button

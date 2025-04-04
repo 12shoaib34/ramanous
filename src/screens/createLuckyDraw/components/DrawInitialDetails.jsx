@@ -64,7 +64,7 @@ const DrawInitialDetails = (props) => {
             name="startTime"
             rules={[{ required: true, message: "  " }]}
           >
-            <AntTimePicker placeholder="Pick" />
+            <AntTimePicker format={"hh:mm"} placeholder="Pick" />
           </Form.Item>
           <Form.Item
             className="col-span-2 mb-0"
@@ -72,7 +72,7 @@ const DrawInitialDetails = (props) => {
             name="endDateTime"
             rules={[{ required: true, message: "Please select a date!" }]}
           >
-            <AntDatePicker placeholder="Select a date" />
+            <AntDatePicker format={"hh:mm"} placeholder="Select a date" />
           </Form.Item>
           <Form.Item
             className="col-span-1 mb-0"
