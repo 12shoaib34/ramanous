@@ -14,6 +14,7 @@ import SeoDetails from "./components/SeoDetails";
 import { createLuckyDraw } from "../listLuckyDraw/thunk";
 import { useNavigate } from "react-router-dom";
 import PlusIcon from "../../icons/PlusIcon";
+import dayjs from "dayjs";
 
 const CreateLuckyDraw = (props) => {
   const [form] = Form.useForm();
@@ -24,11 +25,7 @@ const CreateLuckyDraw = (props) => {
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getCountries());
-  }, [dispatch]); // Add dispatch to dependency array
-
-  // Reset state on unmount
-
-  const [activeTab, setActiveTab] = React.useState("CURRENT_DRAWS");
+  }, [dispatch]);
 
   const products = useSelector((state) => state?.common?.products);
   const countriesData = useSelector((state) => state?.common?.countries);
@@ -67,11 +64,27 @@ const CreateLuckyDraw = (props) => {
       })
       .filter(Boolean);
 
+    const { startDateTime, startTime, endDateTime, endTime } = values;
+
+    const combinedStartDateTime =
+      startDateTime && startTime
+        ? dayjs(startDateTime)
+            .hour(dayjs(startTime).hour())
+            .minute(dayjs(startTime).minute())
+            .second(dayjs(startTime).second())
+        : null;
+
+    const combinedEndDateTime =
+      endDateTime && endTime
+        ? dayjs(endDateTime).hour(dayjs(endTime).hour()).minute(dayjs(endTime).minute()).second(dayjs(endTime).second())
+        : null;
+
     const payload = {
       luckyDrawName: values.luckyDrawName,
       publicName: values.publicName,
-      startDateTime: values.startDateTime?.toISOString(),
-      endDateTime: values.endDateTime?.toISOString(),
+
+      startDateTime: combinedStartDateTime?.toISOString(),
+      endDateTime: combinedEndDateTime?.toISOString(),
       timeZone: values.timeZone,
       metaTitle: values.metaTitle,
       metaDescription: values.metaDescription,
@@ -81,7 +94,7 @@ const CreateLuckyDraw = (props) => {
       reward: values.reward,
       status: "DRAFT",
 
-      luckyDrawSettings: [...values?.digitalDownloadEntries, ...values?.physicalStoreEntries],
+      luckyDrawSettings: [...(values?.digitalDownloadEntries || []), ...(values?.physicalStoreEntries || [])], // Added null checks
       products: [],
       countries: formattedCountries,
       isUnlimited: values.isUnlimited || false,

@@ -54,12 +54,13 @@ const PhysicalStoreEntries = () => {
                 <Form.List
                   initialValue={[
                     {
-                      productType: "PHYSICAL", // Changed type
                       type: false,
+                      productType: "PHYSICAL",
                       startDate: combinedStartDateTime,
+                      expires: combinedEndDateTime,
                     },
                   ]}
-                  name="physicalStoreEntries" // Changed name
+                  name="physicalStoreEntries"
                 >
                   {(fields, { add, remove }) => {
                     return (

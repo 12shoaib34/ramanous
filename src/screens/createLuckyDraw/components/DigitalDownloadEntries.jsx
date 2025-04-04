@@ -56,8 +56,10 @@ const DigitalDownloadEntries = () => {
                 <Form.List
                   initialValue={[
                     {
-                      productType: "DIGITAL",
                       type: false,
+                      productType: "DIGITAL",
+                      startDate: combinedStartDateTime,
+                      expires: combinedEndDateTime,
                     },
                   ]}
                   name="digitalDownloadEntries"
