@@ -33,7 +33,7 @@ const DigitalDownloadEntries = () => {
               const lastExpiry = digitalDownloadEntries[digitalDownloadEntries.length - 1]?.expires;
               const isBoosted = digitalDownloadEntries.some((entry) => entry.type === true);
 
-              console.log(digitalDownloadEntries, "digitalDownloadEntries");
+              console.log(lastExpiry, "digitalDownloadEntries");
 
               return (
                 <Form.List
@@ -148,7 +148,7 @@ const DigitalDownloadEntries = () => {
                             theme="light"
                             onClick={() =>
                               add({
-                                type: "BOOST",
+                                type: true,
                                 productType: "DIGITAL",
                                 startDate: lastExpiry,
                                 expires: dayjs(lastExpiry).add(1, "day").endOf("day"),

@@ -33,8 +33,6 @@ const PhysicalStoreEntries = () => {
               const lastExpiry = physicalStoreEntries[physicalStoreEntries.length - 1]?.expires;
               const isBoosted = physicalStoreEntries.some((entry) => entry.type === true);
 
-              console.log(physicalStoreEntries, "physicalStoreEntries"); // Updated log
-
               return (
                 <Form.List
                   initialValue={[
@@ -150,7 +148,7 @@ const PhysicalStoreEntries = () => {
                               add({
                                 type: "BOOST",
                                 productType: "PHYSICAL", // Changed type
-                                startDate: lastExpiry,
+                                startDate: secondLastExpiry,
                                 expires: dayjs(lastExpiry).add(1, "day").endOf("day"),
                               })
                             }

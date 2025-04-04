@@ -80,7 +80,7 @@ const CreateLuckyDraw = (props) => {
       reward: values.reward,
       status: "DRAFT",
 
-      luckyDrawSettings: [],
+      luckyDrawSettings: [...values?.digitalDownloadEntries, ...values?.physicalStoreEntries],
       products: [],
       countries: formattedCountries,
       isUnlimited: values.isUnlimited || false,
@@ -93,7 +93,7 @@ const CreateLuckyDraw = (props) => {
       }
     });
 
-    console.log("Formatted Payload:", values);
+    console.log("Formatted Payload:", payload);
     // dispatch(createLuckyDraw(payload))
     //   .unwrap()
     //   .then((result) => {
@@ -114,13 +114,13 @@ const CreateLuckyDraw = (props) => {
           <div>
             <FormHeader loading={luckyDraws?.createLuckyDrawLoading} />
             <div className="flex flex-col gap-form-item-spacing">
-              <DrawInitialDetails form={form} />
+              {/* <DrawInitialDetails form={form} />
               <SeoDetails form={form} />
               <DrawAreaDetails form={form} />
-              <DrawWinners form={form} />
+              <DrawWinners form={form} /> */}
               <DigitalDownloadEntries form={form} />
               <PhysicalStoreEntries form={form} />
-              <NonQualifyingOrdersMessage form={form} />
+              {/* <NonQualifyingOrdersMessage form={form} /> */}
               {/* <FormSectionWithTitle title="Digital download products (5)">
                 <FormContainer>
                   <ProductRow data={{ url: "/images/RamanousShopifyProducts_1.png" }} />
